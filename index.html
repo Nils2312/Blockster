@@ -1,0 +1,266 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <title>Blockster - Minecraft Bedrock Marketplace</title>
+    
+    <base href="/" />
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192x192.png">
+    <link rel="icon" href="/favicon.ico">
+
+    <meta name="description" content="Nils Kristian Bjøro is the founder of Blockster, a professional Minecraft Bedrock Marketplace studio creating cinematic worlds and epic adventures." />
+    <meta name="keywords" content="Nils Kristian Bjøro, Nils Kristian Bjoro, Blockster, Blockster Games, Minecraft Bedrock Marketplace, Minecraft Creator, Norvale Partner, Minecraft Horror Maps, Minecraft Game Design" />
+    <meta name="author" content="Nils Kristian Bjøro" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://blockster.games/" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://blockster.games/" />
+    <meta property="og:title" content="Blockster" />
+    <meta property="og:description" content="Adventure starts with a single block. Explore cinematic Minecraft experiences created by Blockster." />
+    <meta property="og:image" content="https://blockster.games/images/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://blockster.games/" />
+    <meta name="twitter:title" content="Blockster" />
+    <meta name="twitter:description" content="Professional Minecraft Marketplace content created by Blockster." />
+    <meta name="twitter:image" content="https://blockster.games/images/og-image.png" />
+
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Person",
+          "@id": "https://blockster.games/#person",
+          "name": "Nils Kristian Bjøro",
+          "url": "https://blockster.games",
+          "sameAs": [
+            "https://www.youtube.com/@blockstermc",
+            "https://twitter.com/blocksterminec1",
+            "https://www.tiktok.com/@blocksterminecraft"
+          ],
+          "jobTitle": "Founder & Creative Director",
+          "worksFor": {
+            "@id": "https://blockster.games/#organization"
+          }
+        },
+        {
+          "@type": "Organization",
+          "@id": "https://blockster.games/#organization",
+          "name": "Blockster",
+          "url": "https://blockster.games",
+          "logo": "https://blockster.games/images/logo.png"
+          "founder": { "@id": "https://blockster.games/#person" },
+          "description": "Professional Minecraft Bedrock Marketplace studio specializing in cinematic worlds."
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://blockster.games/#website",
+          "url": "https://blockster.games",
+          "name": "Blockster",
+          "publisher": { "@id": "https://blockster.games/#organization" },
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://blockster.games/projects?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+          }
+        }
+      ]
+    }
+    </script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Poppins', 'sans-serif'],
+            },
+            colors: {
+              blockster: {
+                green: '#5bb35d',
+                dark: '#1a1a1a',
+                lightGreen: '#70c572',
+                deepGreen: '#458b47',
+              }
+            },
+            boxShadow: {
+              'block': '0 8px 0 0 rgba(0,0,0,0.08)',
+              'block-green': '0 8px 0 0 #458b47',
+              'block-dark': '0 8px 0 0 #000000',
+              'block-discord': '0 6px 0 0 #4752c4',
+            },
+            animation: {
+              'marquee': 'marquee 40s linear infinite',
+              'marquee-reverse': 'marquee-reverse 40s linear infinite',
+              'slide-down': 'slideDown 1.4s cubic-bezier(0.19, 1, 0.22, 1) forwards',
+              'fade-in-up': 'fadeInUp 1s cubic-bezier(0.19, 1, 0.22, 1) forwards',
+              'bounce-subtle': 'bounceSubtle 3s ease-in-out infinite',
+            },
+            keyframes: {
+              marquee: {
+                '0%': { transform: 'translate3d(0, 0, 0)' },
+                '100%': { transform: 'translate3d(-50%, 0, 0)' },
+              },
+              'marquee-reverse': {
+                '0%': { transform: 'translate3d(-50%, 0, 0)' },
+                '100%': { transform: 'translate3d(0, 0, 0)' },
+              },
+              slideDown: {
+                '0%': { transform: 'translateY(-100%)' },
+                '100%': { transform: 'translateY(0)' },
+              },
+              fadeInUp: {
+                '0%': { opacity: '0', transform: 'translateY(30px)' },
+                '100%': { opacity: '1', transform: 'translateY(0)' },
+              },
+              bounceSubtle: {
+                '0%, 100%': { transform: 'translateY(0)' },
+                '50%': { transform: 'translateY(-10px)' },
+              }
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      html, body {
+        overflow-x: hidden;
+        width: 100%;
+        position: relative;
+      }
+      
+      body {
+        font-family: 'Poppins', sans-serif;
+        background-color: #f5f7f5;
+        color: #1a1a1a;
+      }
+      
+      .hero-video-container {
+        position: relative;
+        overflow: hidden;
+        border-bottom-left-radius: 1rem;
+        border-bottom-right-radius: 1rem;
+      }
+
+      @media (min-width: 768px) {
+        .hero-video-container {
+          border-bottom-left-radius: 1.5rem;
+          border-bottom-right-radius: 1.5rem;
+        }
+      }
+
+      .hero-video {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        min-width: 100%;
+        min-height: 100%;
+        width: auto;
+        height: auto;
+        transform: translate(-50%, -50%);
+        z-index: -1;
+        object-fit: cover;
+      }
+
+      .minecraft-btn {
+        transition: transform 0.1s ease, box-shadow 0.1s ease;
+        transform: translateY(-4px);
+      }
+
+      .minecraft-btn:hover {
+        transform: translateY(0px);
+        box-shadow: none !important;
+      }
+
+      .reveal {
+        opacity: 0;
+        transform: translateY(40px);
+        transition: opacity 1.0s cubic-bezier(0.33, 1, 0.68, 1), 
+                    transform 1.0s cubic-bezier(0.33, 1, 0.68, 1);
+        will-change: transform, opacity;
+      }
+
+      .reveal.active {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .reveal-delay-1 { transition-delay: 0.1s; }
+      .reveal-delay-2 { transition-delay: 0.25s; }
+      .reveal-delay-3 { transition-delay: 0.4s; }
+      .reveal-delay-4 { transition-delay: 0.55s; }
+
+      .fill-text-container {
+        position: relative;
+        display: inline-block;
+        color: #1a1a1a;
+      }
+
+      .fill-text-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 0%;
+        height: 100%;
+        color: #5bb35d;
+        overflow: hidden;
+        white-space: nowrap;
+        transition: width 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+      }
+
+      .animate-marquee, .animate-marquee-reverse {
+        will-change: transform;
+        backface-visibility: hidden;
+        -webkit-backface-visibility: hidden;
+      }
+
+      @keyframes wordFadeUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+
+      .pause-on-hover:hover .animate-marquee,
+      .pause-on-hover:hover .animate-marquee-reverse {
+        animation-play-state: paused;
+      }
+
+      ::selection {
+        background: #5bb35d;
+        color: white;
+      }
+    </style>
+    <script type="importmap">
+    {
+      "imports": {
+        "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+        "react/": "https://esm.sh/react@^19.2.3/",
+        "react": "https://esm.sh/react@^19.2.3"
+      }
+    }
+    </script>
+  <link rel="stylesheet" href="/index.css">
+</head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="index.tsx"></script>
+  <script type="module" src="/index.tsx"></script>
+</body>
+</html>
