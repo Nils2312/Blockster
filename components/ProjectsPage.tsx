@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 const projects = [
   {
@@ -52,7 +52,15 @@ interface ProjectsPageProps {
 }
 
 const ProjectsPage: React.FC<ProjectsPageProps> = ({ shouldAnimateHeader = true, onPageChange }) => {
+  const [isMobile, setIsMobile] = useState(false);
   const rotations = ['rotate-1', '-rotate-[1.5deg]', 'rotate-[1.5deg]', '-rotate-1', 'rotate-[1.2deg]', '-rotate-[1.2deg]'];
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const handleProjectClick = (project: any) => {
     if (project.title === "THRONES OF DRAGONS") {
@@ -64,8 +72,8 @@ const ProjectsPage: React.FC<ProjectsPageProps> = ({ shouldAnimateHeader = true,
 
   return (
     <div className="pb-24 overflow-hidden">
-      <section className={`bg-blockster-dark pt-48 pb-24 px-6 md:px-12 rounded-b-xl md:rounded-b-3xl shadow-block-dark relative z-10 ${shouldAnimateHeader ? 'animate-slide-down' : ''}`}>
-        <div className="max-w-7xl mx-auto opacity-0 animate-fade-in-up" style={{ animationDelay: shouldAnimateHeader ? '0.6s' : '0.1s' }}>
+      <section className={`bg-blockster-dark pt-48 pb-24 px-6 md:px-12 rounded-b-xl md:rounded-b-3xl shadow-block-dark relative z-10 ${shouldAnimateHeader ? 'md:animate-slide-down' : ''}`}>
+        <div className="max-w-7xl mx-auto opacity-0 animate-fade-in-up" style={{ animationDelay: isMobile ? '0.1s' : (shouldAnimateHeader ? '0.6s' : '0.1s') }}>
           <h2 className="text-4xl md:text-5xl lg:text-7xl font-black uppercase leading-[1.0] tracking-tighter text-white max-w-4xl">
             FEATURED <br />
             <span className="text-blockster-green">PROJECTS</span>
@@ -84,9 +92,11 @@ const ProjectsPage: React.FC<ProjectsPageProps> = ({ shouldAnimateHeader = true,
                 onClick={() => handleProjectClick(project)}
                 className={`group cursor-pointer ${isFirstRow ? 'opacity-0 animate-fade-in-up' : 'reveal'}`}
                 style={isFirstRow ? { 
-                  animationDelay: shouldAnimateHeader 
-                    ? `${1.1 + (index * 0.15)}s` 
-                    : `${0.3 + (index * 0.1)}s`
+                  animationDelay: isMobile 
+                    ? `${0.3 + (index * 0.1)}s` 
+                    : (shouldAnimateHeader 
+                        ? `${1.1 + (index * 0.15)}s` 
+                        : `${0.3 + (index * 0.1)}s`)
                 } : {
                   transitionDelay: `${(index % 2) * 0.1}s`
                 }}

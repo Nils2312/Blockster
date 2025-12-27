@@ -7,16 +7,25 @@ interface AboutPageProps {
 
 const AboutPage: React.FC<AboutPageProps> = ({ shouldAnimateHeader = true }) => {
   const containerRef = useRef<HTMLDivElement>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
   const [fillWidth, setFillWidth] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
     const handleScroll = () => {
       if (!containerRef.current) return;
       const rect = containerRef.current.getBoundingClientRect();
       const windowHeight = window.innerHeight;
+      const isMob = window.innerWidth < 768;
       
-      const start = windowHeight * 0.65;
-      const end = windowHeight * 0.25;
+      // På mobil starter vi fyllingen når teksten er lenger opp (40% av skjermen)
+      // Dette hindrer at den starter "ferdig-fylt" på små skjermer
+      const start = windowHeight * (isMob ? 0.4 : 0.65);
+      const end = windowHeight * (isMob ? 0.15 : 0.25);
       
       let progress = (start - rect.top) / (start - end);
       progress = Math.max(0, Math.min(1, progress));
@@ -26,7 +35,10 @@ const AboutPage: React.FC<AboutPageProps> = ({ shouldAnimateHeader = true }) => 
 
     window.addEventListener('scroll', handleScroll);
     handleScroll();
-    return () => window.removeEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', checkMobile);
+    };
   }, []);
 
   const galleryItems = [
@@ -67,8 +79,8 @@ const AboutPage: React.FC<AboutPageProps> = ({ shouldAnimateHeader = true }) => 
 
   return (
     <div className="pb-0 overflow-hidden">
-      <section className={`bg-blockster-dark pt-48 pb-24 px-6 md:px-12 rounded-b-xl md:rounded-b-3xl shadow-block-dark relative ${shouldAnimateHeader ? 'animate-slide-down' : ''}`}>
-        <div className="max-w-7xl mx-auto opacity-0 animate-fade-in-up" style={{ animationDelay: shouldAnimateHeader ? '0.6s' : '0.1s' }}>
+      <section className={`bg-blockster-dark pt-48 pb-24 px-6 md:px-12 rounded-b-xl md:rounded-b-3xl shadow-block-dark relative ${shouldAnimateHeader ? 'md:animate-slide-down' : ''}`}>
+        <div className="max-w-7xl mx-auto opacity-0 animate-fade-in-up" style={{ animationDelay: isMobile ? '0.1s' : (shouldAnimateHeader ? '0.6s' : '0.1s') }}>
           <h2 className="text-4xl md:text-5xl lg:text-7xl font-black uppercase leading-[1.0] tracking-tighter text-white max-w-4xl">
             CRAFTED BY ONE <br />
             <span className="text-blockster-green">PLAYED BY THOUSANDS</span>
@@ -76,7 +88,7 @@ const AboutPage: React.FC<AboutPageProps> = ({ shouldAnimateHeader = true }) => 
         </div>
       </section>
 
-      <section className="mt-24 md:mt-36 px-6 md:px-12 max-w-7xl mx-auto opacity-0 animate-fade-in-up grid grid-cols-1 lg:grid-cols-2 gap-16 md:gap-24 items-center" style={{ animationDelay: shouldAnimateHeader ? '1.1s' : '0.4s' }}>
+      <section className="mt-24 md:mt-36 px-6 md:px-12 max-w-7xl mx-auto opacity-0 animate-fade-in-up grid grid-cols-1 lg:grid-cols-2 gap-16 md:gap-24 items-center" style={{ animationDelay: isMobile ? '0.3s' : (shouldAnimateHeader ? '1.1s' : '0.4s') }}>
         <div className="order-2 lg:order-1">
           <div className="relative group">
             <div className="absolute -inset-4 bg-blockster-green rounded-xl rotate-2 group-hover:rotate-0 transition-transform duration-700"></div>
@@ -116,7 +128,7 @@ const AboutPage: React.FC<AboutPageProps> = ({ shouldAnimateHeader = true }) => 
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-12 gap-6 h-auto">
-          <div className="md:col-span-5 bg-white p-10 md:p-12 rounded-2xl shadow-block flex flex-col justify-between group relative overflow-hidden min-h-[320px] md:min-h-[400px]">
+          <div className="md:col-span-5 bg-white px-6 py-10 md:p-12 rounded-2xl shadow-block flex flex-col justify-between group relative overflow-hidden min-h-[320px] md:min-h-[400px]">
             <div className="absolute top-10 right-10 w-16 h-16 bg-blockster-green/10 rounded-xl rotate-12 group-hover:rotate-[-12deg] group-hover:translate-x-4 transition-transform duration-700"></div>
             <div className="absolute bottom-10 left-10 w-12 h-12 bg-blockster-green/10 rounded-lg -rotate-12 group-hover:rotate-6 transition-transform duration-500"></div>
             <div className="absolute top-1/2 right-6 w-8 h-8 bg-blockster-green/10 rounded-lg rotate-[35deg] group-hover:scale-125 transition-all duration-700"></div>
@@ -131,8 +143,7 @@ const AboutPage: React.FC<AboutPageProps> = ({ shouldAnimateHeader = true }) => 
           </div>
 
           <div className="md:col-span-7 grid grid-cols-1 grid-rows-none md:grid-rows-2 gap-6">
-            {/* Story Card (02) */}
-            <div className="bg-blockster-dark p-10 md:p-12 rounded-2xl shadow-block flex flex-col justify-between group relative overflow-hidden min-h-[320px] md:min-h-0">
+            <div className="bg-blockster-dark px-6 py-10 md:p-12 rounded-2xl shadow-block flex flex-col justify-between group relative overflow-hidden min-h-[320px] md:min-h-0">
                <div className="absolute bottom-10 right-10 w-20 h-20 bg-blockster-green/10 rounded-2xl rotate-45 group-hover:rotate-[90deg] transition-transform duration-1000"></div>
                <div className="absolute top-6 right-24 w-10 h-10 bg-blockster-green/10 rounded-lg rotate-12 group-hover:-translate-y-2 transition-transform duration-700"></div>
                
@@ -141,13 +152,13 @@ const AboutPage: React.FC<AboutPageProps> = ({ shouldAnimateHeader = true }) => 
                </div>
                <div>
                   <h5 className="text-3xl font-black uppercase tracking-tighter mb-2 text-white">STORY</h5>
-                  <p className="font-medium text-lg leading-relaxed text-gray-400 max-w-md">
+                  <p className="font-medium text-lg leading-relaxed text-gray-400 max-md">
                     Narratives crafted with care, often featuring original scores and voice acting that breathe life into the pixels.
                   </p>
                </div>
             </div>
 
-            <div className="bg-blockster-green p-10 md:p-12 rounded-2xl shadow-block-green flex flex-col justify-between group relative overflow-hidden min-h-[320px] md:min-h-0">
+            <div className="bg-blockster-green px-6 py-10 md:p-12 rounded-2xl shadow-block-green flex flex-col justify-between group relative overflow-hidden min-h-[320px] md:min-h-0">
                <div className="absolute bottom-12 right-24 w-16 h-16 bg-white/10 rounded-2xl -rotate-[20deg] group-hover:rotate-[25deg] transition-transform duration-700 delay-100"></div>
                <div className="absolute top-8 left-48 w-12 h-12 bg-white/10 rounded-xl rotate-[15deg] group-hover:scale-110 transition-transform duration-1000"></div>
                
@@ -196,20 +207,51 @@ const AboutPage: React.FC<AboutPageProps> = ({ shouldAnimateHeader = true }) => 
       </section>
 
       <section className="px-6 md:px-12 max-w-7xl mx-auto reveal pb-32 mt-12 md:mt-32">
-        <div className="mb-16">
+        <div className="mb-6 md:mb-16">
            <h3 className="text-4xl md:text-5xl font-black uppercase tracking-tighter leading-none">
             FROM THE <span className="text-blockster-green">PLAYERS</span>
            </h3>
            <p className="text-gray-500 font-medium text-lg mt-6 max-w-xl">
            Player feedback lies at the heart of the experience. Words shared by players from around the world.
            </p>
+           
+           <div className="flex md:hidden items-center gap-2 mt-4 text-[10px] font-black uppercase tracking-tighter text-gray-300" style={{ letterSpacing: '-0.05em' }}>
+              <span>Swipe for more</span>
+              <svg className="w-3.5 h-3.5 text-blockster-green animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="9 5l7 7-7 7"></path></svg>
+           </div>
         </div>
 
-        <div className="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
+        {/* MOBIL-VERSJON: Karusell */}
+        <div className="relative md:hidden">
+          <div 
+            ref={scrollRef}
+            className="flex overflow-x-auto gap-6 snap-x snap-mandatory hide-scrollbar no-scrollbar items-start"
+          >
+            {testimonials.map((t, i) => (
+              <div 
+                key={i} 
+                className="min-w-[85vw] snap-center bg-white px-6 py-10 rounded-2xl shadow-block border-2 border-transparent relative overflow-hidden h-fit min-h-[200px]"
+              >
+                <div className="flex flex-col gap-5 relative z-10">
+                  <span className="font-black text-blockster-dark uppercase tracking-tight text-sm">
+                    {t.user}
+                  </span>
+                  <p className="text-gray-500 font-medium text-lg leading-relaxed italic">
+                    "{t.text}"
+                  </p>
+                </div>
+              </div>
+            ))}
+            <div className="min-w-[6vw] h-1 shrink-0"></div>
+          </div>
+        </div>
+
+        {/* PC-VERSJON: Masonry Grid */}
+        <div className="hidden md:block columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
           {testimonials.map((t, i) => (
             <div 
               key={i} 
-              className="break-inside-avoid mb-6 bg-white p-8 md:p-10 rounded-2xl shadow-block border-2 border-transparent transition-all duration-300"
+              className="break-inside-avoid mb-6 bg-white px-6 py-8 md:p-10 rounded-2xl shadow-block border-2 border-transparent transition-all duration-300 hover:border-blockster-green/20"
             >
               <div className="flex flex-col gap-4">
                 <span className="font-black text-blockster-dark uppercase tracking-tight text-sm">

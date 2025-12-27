@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 interface ComingSoonPageProps {
   shouldAnimateHeader?: boolean;
@@ -7,10 +7,19 @@ interface ComingSoonPageProps {
 }
 
 const ComingSoonPage: React.FC<ComingSoonPageProps> = ({ shouldAnimateHeader = true, onPageChange }) => {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   return (
     <div className="min-h-screen flex flex-col overflow-hidden bg-[#f5f7f5]">
-      <section className={`bg-blockster-dark pt-48 pb-24 px-6 md:px-12 rounded-b-xl md:rounded-b-3xl shadow-block-dark relative z-10 ${shouldAnimateHeader ? 'animate-slide-down' : ''}`}>
-        <div className="max-w-7xl mx-auto opacity-0 animate-fade-in-up" style={{ animationDelay: shouldAnimateHeader ? '0.6s' : '0.1s' }}>
+      <section className={`bg-blockster-dark pt-48 pb-24 px-6 md:px-12 rounded-b-xl md:rounded-b-3xl shadow-block-dark relative z-10 ${shouldAnimateHeader ? 'md:animate-slide-down' : ''}`}>
+        <div className="max-w-7xl mx-auto opacity-0 animate-fade-in-up" style={{ animationDelay: isMobile ? '0.1s' : (shouldAnimateHeader ? '0.6s' : '0.1s') }}>
           <h2 className="text-4xl md:text-5xl lg:text-7xl font-black uppercase leading-[1.0] tracking-tighter text-white max-w-4xl">
             PROJECT <br />
             <span className="text-blockster-green">COMING SOON</span>
@@ -19,7 +28,7 @@ const ComingSoonPage: React.FC<ComingSoonPageProps> = ({ shouldAnimateHeader = t
       </section>
 
       <section className="flex-grow px-6 md:px-12 py-24 md:py-32 relative z-10">
-        <div className="max-w-7xl mx-auto opacity-0 animate-fade-in-up" style={{ animationDelay: shouldAnimateHeader ? '1.1s' : '0.3s' }}>
+        <div className="max-w-7xl mx-auto opacity-0 animate-fade-in-up" style={{ animationDelay: isMobile ? '0.3s' : (shouldAnimateHeader ? '1.1s' : '0.3s') }}>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             
             <div className="flex flex-col items-start text-left space-y-8">

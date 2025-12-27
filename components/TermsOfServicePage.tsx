@@ -1,14 +1,24 @@
-import React from 'react';
+
+import React, { useState, useEffect } from 'react';
 
 interface TermsOfServicePageProps {
   shouldAnimateHeader?: boolean;
 }
 
 const TermsOfServicePage: React.FC<TermsOfServicePageProps> = ({ shouldAnimateHeader = true }) => {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   return (
     <div className="pb-32 overflow-hidden bg-[#f5f7f5]">
-      <section className={`bg-blockster-dark pt-48 pb-24 px-6 md:px-12 rounded-b-xl md:rounded-b-3xl shadow-block-dark relative ${shouldAnimateHeader ? 'animate-slide-down' : ''}`}>
-        <div className="max-w-7xl mx-auto opacity-0 animate-fade-in-up" style={{ animationDelay: shouldAnimateHeader ? '0.6s' : '0.1s' }}>
+      <section className={`bg-blockster-dark pt-48 pb-24 px-6 md:px-12 rounded-b-xl md:rounded-b-3xl shadow-block-dark relative ${shouldAnimateHeader ? 'md:animate-slide-down' : ''}`}>
+        <div className="max-w-7xl mx-auto opacity-0 animate-fade-in-up" style={{ animationDelay: isMobile ? '0.1s' : (shouldAnimateHeader ? '0.6s' : '0.1s') }}>
           <h2 className="text-4xl md:text-5xl lg:text-7xl font-black uppercase leading-[1.0] tracking-tighter text-white max-w-4xl">
             TERMS OF <br />
             <span className="text-blockster-green">SERVICE</span>

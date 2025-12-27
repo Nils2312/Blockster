@@ -4,7 +4,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
-    <title>Blockster - Minecraft Bedrock Marketplace</title>
+    <title>Blockster - Minecraft Bedrock Marketplace Studio</title>
     
     <base href="/" />
 
@@ -15,29 +15,32 @@
     <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192x192.png">
     <link rel="icon" href="/favicon.ico">
 
-    <meta name="description" content="Nils Kristian Bjøro is the founder of Blockster, a professional Minecraft Bedrock Marketplace studio creating cinematic worlds and epic adventures." />
-    <meta name="keywords" content="Nils Kristian Bjøro, Nils Kristian Bjoro, Blockster, Blockster Games, Minecraft Bedrock Marketplace, Minecraft Creator, Norvale Partner, Minecraft Horror Maps, Minecraft Game Design" />
+    <meta name="description" content="Blockster creates immersive Minecraft maps with storytelling, voice acting, and original music. Every world is crafted to offer a rich and memorable experience." />
+    <meta name="keywords" content="Nils Kristian Bjøro, Nils Kristian Bjoro, Blockster, Blockster Games, Minecraft Bedrock Marketplace, Minecraft Creator, Norvale Partner, Minecraft Horror Maps, Minecraft Game Design, Minecraft RPG" />
     <meta name="author" content="Nils Kristian Bjøro" />
     <meta name="robots" content="index, follow" />
     <link rel="canonical" href="https://blockster.games/" />
 
-    <!-- Open Graph -->
+    <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://blockster.games/" />
-    <meta property="og:title" content="Blockster" />
-    <meta property="og:description" content="Adventure starts with a single block. Explore cinematic Minecraft experiences created by Blockster." />
+    <meta property="og:title" content="Blockster | Cinematic Minecraft Experiences" />
+    <meta property="og:description" content="Adventure starts with a single block. Explore professional Minecraft Marketplace content created by Nils Kristian Bjøro at Blockster." />
     <meta property="og:image" content="https://blockster.games/images/og-image.png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:site_name" content="Blockster" />
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:url" content="https://blockster.games/" />
-    <meta name="twitter:title" content="Blockster" />
-    <meta name="twitter:description" content="Professional Minecraft Marketplace content created by Blockster." />
+    <meta name="twitter:title" content="Blockster | Minecraft Marketplace Studio" />
+    <meta name="twitter:description" content="Professional Minecraft Marketplace content created by Nils Kristian Bjøro." />
     <meta name="twitter:image" content="https://blockster.games/images/og-image.png" />
 
 
+    <!-- Structured Data for Google (JSON-LD) -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -46,11 +49,14 @@
           "@type": "Person",
           "@id": "https://blockster.games/#person",
           "name": "Nils Kristian Bjøro",
+          "alternateName": "Nils Kristian Bjoro",
           "url": "https://blockster.games",
+          "image": "https://blockster.games/images/nils.jpg",
           "sameAs": [
             "https://www.youtube.com/@blockstermc",
             "https://twitter.com/blocksterminec1",
-            "https://www.tiktok.com/@blocksterminecraft"
+            "https://www.tiktok.com/@blocksterminecraft",
+            "https://discord.com/invite/RmSmWjaBNY"
           ],
           "jobTitle": "Founder & Creative Director",
           "worksFor": {
@@ -62,9 +68,19 @@
           "@id": "https://blockster.games/#organization",
           "name": "Blockster",
           "url": "https://blockster.games",
-          "logo": "https://blockster.games/images/logo.png"
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://blockster.games/images/greenlogo.png",
+            "width": "512",
+            "height": "512"
+          },
           "founder": { "@id": "https://blockster.games/#person" },
-          "description": "Professional Minecraft Bedrock Marketplace studio specializing in cinematic worlds."
+          "description": "Professional Minecraft Bedrock Marketplace studio specializing in cinematic worlds, storytelling, and immersive gameplay.",
+          "contactPoint": {
+            "@type": "ContactPoint",
+            "email": "contact@blockster.games",
+            "contactType": "customer support"
+          }
         },
         {
           "@type": "WebSite",
@@ -152,12 +168,24 @@
         background-color: #f5f7f5;
         color: #1a1a1a;
       }
+
+      .no-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+      .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
       
       .hero-video-container {
         position: relative;
         overflow: hidden;
         border-bottom-left-radius: 1rem;
         border-bottom-right-radius: 1rem;
+        background-color: #1a1a1a;
+        background-image: url('/images/poster.jpg');
+        background-size: cover;
+        background-position: center;
       }
 
       @media (min-width: 768px) {
@@ -261,6 +289,5 @@
   <body>
     <div id="root"></div>
     <script type="module" src="index.tsx"></script>
-  <script type="module" src="/index.tsx"></script>
 </body>
 </html>
