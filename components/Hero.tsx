@@ -14,7 +14,6 @@ const Hero: React.FC = () => {
     img.src = posterUrl;
     img.onload = () => setIsPosterLoaded(true);
 
-    // Fjerner sky-elementet fra DOM-en etter at animasjonen er ferdig (3.2 sekunder)
     const timer = setTimeout(() => {
       setShowClouds(false);
     }, 3200);
@@ -25,7 +24,7 @@ const Hero: React.FC = () => {
   return (
     <section className="relative h-[84vh] md:h-[99vh] min-h-[500px] md:min-h-[650px] flex items-end pb-16 px-6 md:px-12 hero-video-container mb-12 z-10 bg-[#dcdcdc]">
       
-      {/* Poster image (vises først) */}
+      {/* Poster image */}
       <div className={`absolute inset-0 transition-opacity duration-1000 ease-in-out z-[-2] ${isPosterLoaded ? 'opacity-100' : 'opacity-0'}`}>
         <img 
           src={posterUrl} 
@@ -34,7 +33,7 @@ const Hero: React.FC = () => {
         />
       </div>
 
-      {/* Video (toner inn over posteren) */}
+      {/* Video */}
       <div className={`absolute inset-0 transition-opacity duration-[1500ms] ease-in-out z-[-1] ${isVideoLoaded ? 'opacity-100' : 'opacity-0'}`}>
         <video 
           autoPlay 
@@ -49,9 +48,12 @@ const Hero: React.FC = () => {
         </video>
       </div>
 
-      {/* Sky-effekt (Parallax clouds) */}
+      {/* Sky-effekt med Safari-fiks */}
       {showClouds && (
-        <div className="absolute inset-0 z-30 pointer-events-none overflow-hidden">
+        <div 
+          className="absolute inset-0 z-30 pointer-events-none overflow-hidden"
+          style={{ perspective: '1000px', transformStyle: 'preserve-3d' }}
+        >
           <img 
             src="/images/clouds.png" 
             alt="Flying Clouds" 
@@ -59,37 +61,39 @@ const Hero: React.FC = () => {
             style={{
               animation: 'cloudFlyBy 3.2s ease-out forwards',
               mixBlendMode: 'screen',
-              filter: 'blur(6px)'
+              filter: 'blur(6px)',
+              willChange: 'transform, opacity',
+              WebkitBackfaceVisibility: 'hidden',
+              backfaceVisibility: 'hidden',
+              transform: 'scale(1.1) translate(-10%, 10%) translateZ(0)'
             }}
           />
         </div>
       )}
 
-      {/* Custom styles for animasjoner og piksel-skygge */}
       <style>{`
         :root {
-          /* HER ENDRER DU OPACITETEN (0.0 til 1.0) */
-          --shadow-opacity: 0.15;
+          --shadow-opacity: 0.1;
         }
 
         @keyframes cloudFlyBy {
-          0% {
-            opacity: 0.0;
-            transform: scale(1.1) translate(-10%, 10%);
+          7% {
+            opacity: 0;
+            transform: scale(1.1) translate(-10%, 10%) translateZ(0);
           }
-          8% {
-            opacity: 1.0;
+          9% {
+            opacity: 0.96;
+            transform: scale(1.3) translate(-12%, 12%) translateZ(0);
           }
-          75% {
-            opacity: 1.0;
+          70% {
+            opacity: 0.96;
           }
           100% {
             opacity: 0;
-            transform: scale(2.8) translate(-30%, 30%);
+            transform: scale(2.8) translate(-30%, 30%) translateZ(0);
           }
         }
 
-        /* Skyggen ligger nå rett under (0px horisontalt) */
         .pixel-shadow {
           text-shadow: 0px 4px 0px rgba(0, 0, 0, var(--shadow-opacity));
         }
@@ -97,6 +101,17 @@ const Hero: React.FC = () => {
         @media (min-width: 768px) {
           .pixel-shadow {
             text-shadow: 0px 7px 0px rgba(0, 0, 0, var(--shadow-opacity));
+          }
+        }
+
+        @keyframes wordFadeUp {
+          from { 
+            opacity: 0; 
+            transform: translateY(20px); 
+          }
+          to { 
+            opacity: 1; 
+            transform: translateY(0); 
           }
         }
       `}</style>
@@ -110,7 +125,7 @@ const Hero: React.FC = () => {
                 className="inline-block opacity-0"
                 style={{ 
                   animation: `wordFadeUp 1.2s cubic-bezier(0.19, 1, 0.22, 1) forwards`,
-                  animationDelay: `${0.15 + (i * 0.0)}s` 
+                  animationDelay: `${0.3 + (i * 0.0)}s` 
                 }}
               >
                 {word}
