@@ -52,7 +52,12 @@ const Hero: React.FC = () => {
       {showClouds && (
         <div 
           className="absolute inset-0 z-30 pointer-events-none overflow-hidden"
-          style={{ perspective: '1000px', transformStyle: 'preserve-3d' }}
+          style={{ 
+            perspective: '1000px', 
+            transformStyle: 'preserve-3d',
+            isolation: 'isolate',
+            WebkitTransform: 'translate3d(0,0,0)'
+          }}
         >
           <img 
             src="/images/clouds.png" 
@@ -65,7 +70,8 @@ const Hero: React.FC = () => {
               willChange: 'transform, opacity',
               WebkitBackfaceVisibility: 'hidden',
               backfaceVisibility: 'hidden',
-              transform: 'scale(1.1) translate(-10%, 10%) translateZ(0)'
+              transform: 'scale(1.1) translate3d(-10%, 10%, 0) rotate(0.001deg)',
+              WebkitTransform: 'scale(1.1) translate3d(-10%, 10%, 0) rotate(0.001deg)'
             }}
           />
         </div>
@@ -77,20 +83,28 @@ const Hero: React.FC = () => {
         }
 
         @keyframes cloudFlyBy {
-          7% {
+          0% {
             opacity: 0;
-            transform: scale(1.1) translate(-10%, 10%) translateZ(0);
+            transform: scale(1.1) translate3d(-10%, 10%, 0) rotate(0.001deg);
+            -webkit-transform: scale(1.1) translate3d(-10%, 10%, 0) rotate(0.001deg);
           }
-          9% {
+          10% {
+            opacity: 0;
+            transform: scale(1.1) translate3d(-10%, 10%, 0) rotate(0.001deg);
+            -webkit-transform: scale(1.1) translate3d(-10%, 10%, 0) rotate(0.001deg);
+          }
+          20% {
             opacity: 0.96;
-            transform: scale(1.3) translate(-12%, 12%) translateZ(0);
+            transform: scale(1.3) translate3d(-12%, 12%, 0) rotate(0.001deg);
+            -webkit-transform: scale(1.2) translate3d(-12%, 12%, 0) rotate(0.001deg);
           }
           70% {
             opacity: 0.96;
           }
           100% {
             opacity: 0;
-            transform: scale(2.8) translate(-30%, 30%) translateZ(0);
+            transform: scale(2.8) translate3d(-30%, 30%, 0) rotate(0.001deg);
+            -webkit-transform: scale(2.5) translate3d(-30%, 30%, 0) rotate(0.001deg);
           }
         }
 
@@ -125,7 +139,7 @@ const Hero: React.FC = () => {
                 className="inline-block opacity-0"
                 style={{ 
                   animation: `wordFadeUp 1.2s cubic-bezier(0.19, 1, 0.22, 1) forwards`,
-                  animationDelay: `${0.3 + (i * 0.0)}s` 
+                  animationDelay: `${0.6 + (i * 0.0)}s` 
                 }}
               >
                 {word}
