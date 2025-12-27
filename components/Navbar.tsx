@@ -37,7 +37,6 @@ const Navbar: React.FC<NavbarProps> = ({ currentPage, onPageChange }) => {
     }
   }, [isMenuOpen]);
 
-  // Nullstill navigasjons-flagget etter at animasjonen er ferdig (500ms)
   useEffect(() => {
     if (isNavigating) {
       const timer = setTimeout(() => setIsNavigating(false), 500);
@@ -63,12 +62,10 @@ const Navbar: React.FC<NavbarProps> = ({ currentPage, onPageChange }) => {
   const marketplaceUrl = "https://www.minecraft.net/en-us/marketplace/creator/norvale";
   
   const isSolidUI = scrolled || isMenuOpen;
-
-  // Fryser bredden ved navigering for å hindre at logo/ikon "hopper" sidelengs
   const shouldBeFullWidth = isMenuOpen || isNavigating;
 
   const navClasses = `
-    fixed left-1/2 -translate-x-1/2 z-[110] transition-all duration-500
+    fixed left-1/2 -translate-x-1/2 z-[110] transition-all duration-700
     ${(scrolled && !shouldBeFullWidth)
         ? 'top-4 w-[92%] md:w-[95%] max-w-7xl py-3 px-8 rounded-2xl' 
         : 'top-0 w-full max-w-full py-8 px-6 md:px-12 rounded-none'
@@ -83,24 +80,24 @@ const Navbar: React.FC<NavbarProps> = ({ currentPage, onPageChange }) => {
           transitionTimingFunction: (scrolled && !shouldBeFullWidth) ? 'cubic-bezier(0.34, 1.56, 0.64, 1)' : 'cubic-bezier(0.4, 0, 0.2, 1)' 
         }}
       >
-        {/* 
-            NAVBAR BAKGRUNN (PILLEN)
-            - Ved navigering tvinger vi duration-0 og shadow-none.
-            - Dette fjerner skyggen umiddelbart slik at den ikke glitche mens menyen sklir bort.
-        */}
+        {/* Bakgrunnen følger nav-lenkene for å unngå visuell støy */}
         <div 
           className={`absolute inset-0 bg-white/95 backdrop-blur-md -z-10 transition-all ${
             isNavigating 
               ? 'duration-0 opacity-0 shadow-none' 
-              : 'duration-[1000ms] ease-[cubic-bezier(0.16,1,0.3,1)] opacity-100'
+              : 'duration-[600ms] ease-[cubic-bezier(0.16,1,0.3,1)] opacity-100'
           } ${
             scrolled 
-              ? `translate-y-0 ${isMenuOpen ? 'rounded-none shadow-none' : 'rounded-2xl shadow-block'}` 
-              : '-translate-y-[150%] rounded-none shadow-none'
+              ? `translate-y-0 visible ${isMenuOpen ? 'rounded-none shadow-none' : 'rounded-2xl shadow-block'}` 
+              : '-translate-y-[200%] invisible rounded-none shadow-none opacity-0'
           }`}
           style={{ 
             pointerEvents: 'none',
-            boxShadow: isNavigating ? 'none' : undefined 
+            boxShadow: isNavigating ? 'none' : undefined,
+            WebkitBackfaceVisibility: 'hidden',
+            backfaceVisibility: 'hidden',
+            transform: scrolled ? 'translateY(0) translateZ(0)' : 'translateY(-200%) translateZ(0)',
+            willChange: 'transform, opacity'
           }}
         />
 
@@ -109,6 +106,7 @@ const Navbar: React.FC<NavbarProps> = ({ currentPage, onPageChange }) => {
             className="flex items-center gap-2 group cursor-pointer transition-transform duration-300"
             onClick={() => handleNavigate('home')}
           >
+            {/* LOGO: Satt tilbake til standard 300ms */}
             <div className="relative h-7 w-auto transition-transform duration-300">
               <img src={whiteLogo} alt="Logo White" className={`h-full w-auto transition-opacity duration-300 ${isSolidUI ? 'opacity-0' : 'opacity-100'}`} />
               <img src={greenLogo} alt="Logo Green" className={`h-full w-auto absolute inset-0 transition-opacity duration-300 ${isSolidUI ? 'opacity-100' : 'opacity-0'}`} />
@@ -123,7 +121,12 @@ const Navbar: React.FC<NavbarProps> = ({ currentPage, onPageChange }) => {
               <button 
                 key={item.id} 
                 onClick={() => handleNavigate(item.id)}
-                className={`relative group py-1 transition-colors duration-200 ${isSolidUI ? (currentPage === item.id ? 'text-blockster-green' : 'text-blockster-dark hover:text-blockster-green') : (currentPage === item.id ? 'text-blockster-green' : 'text-white hover:text-white')}`}
+                /* HER ENDRES BARE DISSE: duration-[600ms] */
+                className={`relative group py-1 transition-colors duration-[120ms] ${
+                  isSolidUI 
+                    ? (currentPage === item.id ? 'text-blockster-green' : 'text-blockster-dark hover:text-blockster-green') 
+                    : (currentPage === item.id ? 'text-blockster-green' : 'text-white hover:text-white')
+                }`}
               >
                 <span className="block transition-transform duration-200 group-hover:rotate-[3deg]">{item.label}</span>
               </button>
@@ -131,7 +134,15 @@ const Navbar: React.FC<NavbarProps> = ({ currentPage, onPageChange }) => {
           </div>
 
           <div className="flex items-center">
-            <a href={marketplaceUrl} target="_blank" rel="noopener noreferrer" className={`hidden md:block minecraft-btn px-6 py-2.5 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all duration-200 ${scrolled ? 'bg-blockster-green text-white shadow-block-green' : 'bg-white text-blockster-dark shadow-block'}`}>
+            {/* MARKETPLACE: Satt tilbake til standard 300ms */}
+            <a 
+              href={marketplaceUrl} 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className={`hidden md:block minecraft-btn px-6 py-2.5 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all duration-100 ${
+                scrolled ? 'bg-blockster-green text-white shadow-block-green' : 'bg-white text-blockster-dark shadow-block'
+              }`}
+            >
               Marketplace
             </a>
 
@@ -146,11 +157,7 @@ const Navbar: React.FC<NavbarProps> = ({ currentPage, onPageChange }) => {
         </div>
       </nav>
 
-      {/* 
-          MOBILMENY OVERLAY
-          - Bruker translate-x for en ren "slide"-effekt fra/til høyre.
-          - duration er satt til 500ms ved navigering for en smoothere følelse.
-      */}
+      {/* MOBILMENY */}
       <div 
         className={`fixed inset-0 z-[100] bg-white md:hidden transition-transform ${
           isMenuOpen ? 'translate-x-0' : 'translate-x-full'
@@ -166,16 +173,12 @@ const Navbar: React.FC<NavbarProps> = ({ currentPage, onPageChange }) => {
               <button 
                 key={item.id}
                 onClick={() => handleNavigate(item.id)}
-                className={`text-4xl font-black uppercase tracking-tighter transition-all duration-700 ${
+                className={`text-4xl font-black uppercase tracking-tighter transition-all duration-1000 ${
                   isMenuOpen ? 'translate-x-0 opacity-100' : 'translate-x-12 opacity-0'
                 } ${
                   currentPage === item.id ? 'text-blockster-green' : 'text-blockster-dark hover:text-blockster-green'
                 }`}
-                style={{ 
-                  transitionDelay: isMenuOpen 
-                    ? `${250 + index * 70}ms` 
-                    : `0ms`
-                }}
+                style={{ transitionDelay: isMenuOpen ? `${250 + index * 70}ms` : `0ms` }}
               >
                 {item.label}
               </button>

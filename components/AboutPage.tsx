@@ -166,7 +166,7 @@ const AboutPage: React.FC<AboutPageProps> = ({ shouldAnimateHeader = true }) => 
                <div className="relative z-10">
                   <h5 className="text-3xl font-black uppercase tracking-tighter mb-2 text-white">DETAIL</h5>
                   <p className="font-medium text-lg leading-relaxed text-white/80 max-w-md">
-                  Worlds filled with detail, where every corner reveals part of the lore. Crafted from the ground up.
+                  Worlds filled with detail, where every corner slowly reveals part of the lore. Crafted from the ground up.
                   </p>
                </div>
             </div>

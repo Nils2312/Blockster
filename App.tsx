@@ -16,9 +16,20 @@ import TermsOfServicePage from './components/TermsOfServicePage';
 type Page = 'home' | 'about' | 'projects' | 'help' | 'coming-soon' | 'privacy' | 'terms';
 
 const App: React.FC = () => {
-  const [currentPage, setCurrentPage] = useState<Page>('home');
+  // Funksjon for å finne ut hvilken side vi er på basert på URL-stien
+  const getPageFromPath = (): Page => {
+    const path = window.location.pathname.replace('/', '');
+    const validPages: Page[] = ['about', 'projects', 'help', 'coming-soon', 'privacy', 'terms'];
+    if (validPages.includes(path as Page)) {
+      return path as Page;
+    }
+    return 'home';
+  };
+
+  const [currentPage, setCurrentPage] = useState<Page>(getPageFromPath());
   const [shouldAnimateHeader, setShouldAnimateHeader] = useState(true);
 
+  // Synkroniser sidetittel
   useEffect(() => {
     const titles: Record<Page, string> = {
       home: 'Home | Blockster',
@@ -32,10 +43,22 @@ const App: React.FC = () => {
     document.title = titles[currentPage] || 'Blockster';
   }, [currentPage]);
 
+  // Håndter Browser Back/Forward knapper
+  useEffect(() => {
+    const handlePopState = () => {
+      setCurrentPage(getPageFromPath());
+      setShouldAnimateHeader(false); // Ikke kjør full header-animasjon ved bakover-navigering
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
+
+  // Intersection Observer for scroll-animasjoner
   useEffect(() => {
     const observerOptions = {
       threshold: 0,
-      rootMargin: '0px 0px -1px 0px' 
+      rootMargin: '0px 0px -10px 0px' 
     };
 
     const observer = new IntersectionObserver((entries) => {
@@ -59,6 +82,12 @@ const App: React.FC = () => {
     const fromHome = currentPage === 'home';
     const toHome = page === 'home';
 
+    // Oppdater URL-en i adresselinjen
+    const newPath = page === 'home' ? '/' : `/${page}`;
+    if (window.location.pathname !== newPath) {
+      window.history.pushState({ page }, '', newPath);
+    }
+
     if (fromHome) {
       setShouldAnimateHeader(true);
     } else if (!toHome) {
@@ -80,7 +109,7 @@ const App: React.FC = () => {
         {currentPage === 'home' ? (
           <>
             <Hero />
-            <div className="max-w-7xl mx-auto px-6 pt-4 pb-16 md:pb-24 space-y-16 md:space-y-32">
+            <div className="max-w-7xl mx-auto px-6 pt-14 pb-16 md:pb-24 space-y-16 md:space-y-32">
               <Intro />
               <ContentGrid onPageChange={handlePageChange} />
               <ActionTiles onPageChange={handlePageChange} />
