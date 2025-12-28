@@ -64,39 +64,45 @@ const Navbar: React.FC<NavbarProps> = ({ currentPage, onPageChange }) => {
   const isSolidUI = scrolled || isMenuOpen;
   const shouldBeFullWidth = isMenuOpen || isNavigating;
 
+  // HASTIGHET: Rask ned (700ms), litt saktere opp (1100ms) som forespurt
   const navClasses = `
-    fixed left-1/2 -translate-x-1/2 z-[110] transition-all duration-700
+    fixed left-1/2 -translate-x-1/2 z-[110] transition-all ${scrolled ? 'duration-700' : 'duration-[1100ms]'}
     ${(scrolled && !shouldBeFullWidth)
         ? 'top-4 w-[92%] md:w-[95%] max-w-7xl py-3 px-8 rounded-2xl' 
         : 'top-0 w-full max-w-full py-8 px-6 md:px-12 rounded-none'
     }
   `;
 
+  // Subtil bounce: Bruker 1.35 i stedet for 1.56 for å gjøre spretten mindre voldsom
+  const entryTiming = 'cubic-bezier(0.34, 1.30, 0.64, 1)';
+  const exitTiming = 'cubic-bezier(0.4, 0, 0.2, 1)';
+
   return (
     <>
       <nav 
         className={navClasses} 
         style={{ 
-          transitionTimingFunction: (scrolled && !shouldBeFullWidth) ? 'cubic-bezier(0.34, 1.56, 0.64, 1)' : 'cubic-bezier(0.4, 0, 0.2, 1)' 
+          transitionTimingFunction: (scrolled && !shouldBeFullWidth) ? entryTiming : exitTiming 
         }}
       >
-        {/* Bakgrunnen følger nav-lenkene for å unngå visuell støy */}
+        {/* Bakgrunnen: Endret fra duration-600 til dynamisk hastighet og økt translate-y for Safari-sikring */}
         <div 
           className={`absolute inset-0 bg-white/95 backdrop-blur-md -z-10 transition-all ${
             isNavigating 
               ? 'duration-0 opacity-0 shadow-none' 
-              : 'duration-[600ms] ease-[cubic-bezier(0.16,1,0.3,1)] opacity-100'
+              : (scrolled ? 'duration-[600ms]' : 'duration-[1000ms]')
           } ${
             scrolled 
               ? `translate-y-0 visible ${isMenuOpen ? 'rounded-none shadow-none' : 'rounded-2xl shadow-block'}` 
-              : '-translate-y-[200%] invisible rounded-none shadow-none opacity-0'
+              : '-translate-y-[250%] invisible rounded-none shadow-none opacity-0'
           }`}
           style={{ 
+            transitionTimingFunction: scrolled ? entryTiming : exitTiming,
             pointerEvents: 'none',
             boxShadow: isNavigating ? 'none' : undefined,
             WebkitBackfaceVisibility: 'hidden',
             backfaceVisibility: 'hidden',
-            transform: scrolled ? 'translateY(0) translateZ(0)' : 'translateY(-200%) translateZ(0)',
+            transform: scrolled ? 'translateY(0) translateZ(0)' : 'translateY(-250%) translateZ(0)',
             willChange: 'transform, opacity'
           }}
         />
@@ -106,7 +112,6 @@ const Navbar: React.FC<NavbarProps> = ({ currentPage, onPageChange }) => {
             className="flex items-center gap-2 group cursor-pointer transition-transform duration-300"
             onClick={() => handleNavigate('home')}
           >
-            {/* LOGO: Satt tilbake til standard 300ms */}
             <div className="relative h-7 w-auto transition-transform duration-300">
               <img src={whiteLogo} alt="Logo White" className={`h-full w-auto transition-opacity duration-300 ${isSolidUI ? 'opacity-0' : 'opacity-100'}`} />
               <img src={greenLogo} alt="Logo Green" className={`h-full w-auto absolute inset-0 transition-opacity duration-300 ${isSolidUI ? 'opacity-100' : 'opacity-0'}`} />
@@ -121,8 +126,7 @@ const Navbar: React.FC<NavbarProps> = ({ currentPage, onPageChange }) => {
               <button 
                 key={item.id} 
                 onClick={() => handleNavigate(item.id)}
-                /* HER ENDRES BARE DISSE: duration-[600ms] */
-                className={`relative group py-1 transition-colors duration-[120ms] ${
+                className={`relative group py-1 transition-colors duration-[400ms] ${
                   isSolidUI 
                     ? (currentPage === item.id ? 'text-blockster-green' : 'text-blockster-dark hover:text-blockster-green') 
                     : (currentPage === item.id ? 'text-blockster-green' : 'text-white hover:text-white')
@@ -134,7 +138,6 @@ const Navbar: React.FC<NavbarProps> = ({ currentPage, onPageChange }) => {
           </div>
 
           <div className="flex items-center">
-            {/* MARKETPLACE: Satt tilbake til standard 300ms */}
             <a 
               href={marketplaceUrl} 
               target="_blank" 
