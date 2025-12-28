@@ -143,7 +143,7 @@ const HelpPage: React.FC<HelpPageProps> = ({ shouldAnimateHeader = true }) => {
       </section>
 
       <section className="max-w-7xl mx-auto px-6 md:px-12 pt-32 md:pt-48" ref={faqContainerRef}>
-        <div className={`mb-16 transition-all duration-1000 ${faqVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+        <div className={`mb-16 transition-all duration-0 ${faqVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
           <h4 className="text-4xl md:text-5xl font-black uppercase tracking-tighter mb-4 text-blockster-dark">FREQUENTLY ASKED QUESTIONS</h4>
           <p className="text-gray-500 font-medium text-lg max-w-2xl">Find quick answers to common questions about Marketplace content and creator guidelines.</p>
         </div>
