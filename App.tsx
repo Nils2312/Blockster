@@ -52,11 +52,11 @@ const App: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    // JUSTERING: Økt threshold til 0.15 og negativ rootMargin på -100px.
-    // Dette sørger for at elementet er godt inne på skjermen før det dukker opp.
+    // Dynamisk trigger-punkt: -20px på mobil (duker opp tidligere), -120px på desktop (hindrer tidlig pop-in på høye skjermer)
+    const isMobile = window.innerWidth < 768;
     const observerOptions = {
-      threshold: 0.01,
-      rootMargin: '0px 0px -100px 0px' 
+      threshold: 0,
+      rootMargin: isMobile ? '0px 0px -30px 0px' : '0px 0px -120px 0px' 
     };
 
     const observer = new IntersectionObserver((entries) => {
