@@ -220,7 +220,13 @@
          HER STYRES HASTIGHETEN PÅ SVART TEKST (REVEAL) 
          Endret fra 1.0s til 1.6s for roligere overgang.
       */
-
+      .reveal {
+        opacity: 0;
+        transform: translateY(40px);
+        transition: opacity 0.8s cubic-bezier(0.33, 1, 0.68, 1), 
+                    transform 0.8s cubic-bezier(0.33, 1, 0.68, 1);
+        will-change: transform, opacity;
+      }
 
       .reveal.active {
         opacity: 1;
