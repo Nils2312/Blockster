@@ -6,9 +6,7 @@ interface AboutPageProps {
 }
 
 const AboutPage: React.FC<AboutPageProps> = ({ shouldAnimateHeader = true }) => {
-  const containerRef = useRef<HTMLDivElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
-  const [fillWidth, setFillWidth] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
@@ -16,27 +14,7 @@ const AboutPage: React.FC<AboutPageProps> = ({ shouldAnimateHeader = true }) => 
     checkMobile();
     window.addEventListener('resize', checkMobile);
     
-    const handleScroll = () => {
-      if (!containerRef.current) return;
-      const rect = containerRef.current.getBoundingClientRect();
-      const windowHeight = window.innerHeight;
-      const isMob = window.innerWidth < 768;
-      
-      // På mobil starter vi fyllingen når teksten er lenger opp (40% av skjermen)
-      // Dette hindrer at den starter "ferdig-fylt" på små skjermer
-      const start = windowHeight * (isMob ? 0.4 : 0.65);
-      const end = windowHeight * (isMob ? 0.15 : 0.25);
-      
-      let progress = (start - rect.top) / (start - end);
-      progress = Math.max(0, Math.min(1, progress));
-      
-      setFillWidth(progress >= 0.98 ? 101 : progress * 100);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    handleScroll();
     return () => {
-      window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('resize', checkMobile);
     };
   }, []);
@@ -103,10 +81,7 @@ const AboutPage: React.FC<AboutPageProps> = ({ shouldAnimateHeader = true }) => 
         <div className="order-1 lg:order-2 space-y-8">
           <h3 className="text-4xl md:text-5xl font-black uppercase tracking-tighter leading-[0.9]">
             BEYOND THE <br />
-            <span className="fill-text-container" ref={containerRef}>
-              ORDINARY
-              <span className="fill-text-overlay" style={{ width: `${fillWidth}%` }}>ORDINARY</span>
-            </span>
+            <span className="text-blockster-green">ORDINARY</span>
           </h3>
           <div className="space-y-6 text-gray-500 font-medium text-lg leading-relaxed">
             <p>

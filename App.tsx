@@ -16,7 +16,6 @@ import TermsOfServicePage from './components/TermsOfServicePage';
 type Page = 'home' | 'about' | 'projects' | 'help' | 'coming-soon' | 'privacy' | 'terms';
 
 const App: React.FC = () => {
-  // Funksjon for å finne ut hvilken side vi er på basert på URL-stien
   const getPageFromPath = (): Page => {
     const path = window.location.pathname.replace('/', '');
     const validPages: Page[] = ['about', 'projects', 'help', 'coming-soon', 'privacy', 'terms'];
@@ -29,7 +28,6 @@ const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<Page>(getPageFromPath());
   const [shouldAnimateHeader, setShouldAnimateHeader] = useState(true);
 
-  // Synkroniser sidetittel
   useEffect(() => {
     const titles: Record<Page, string> = {
       home: 'Home | Blockster',
@@ -43,22 +41,22 @@ const App: React.FC = () => {
     document.title = titles[currentPage] || 'Blockster';
   }, [currentPage]);
 
-  // Håndter Browser Back/Forward knapper
   useEffect(() => {
     const handlePopState = () => {
       setCurrentPage(getPageFromPath());
-      setShouldAnimateHeader(false); // Ikke kjør full header-animasjon ved bakover-navigering
+      setShouldAnimateHeader(false);
     };
 
     window.addEventListener('popstate', handlePopState);
     return () => window.removeEventListener('popstate', handlePopState);
   }, []);
 
-  // Intersection Observer for scroll-animasjoner
   useEffect(() => {
+    // JUSTERING: Økt threshold til 0.15 og negativ rootMargin på -100px.
+    // Dette sørger for at elementet er godt inne på skjermen før det dukker opp.
     const observerOptions = {
-      threshold: 0,
-      rootMargin: '0px 0px -10px 0px' 
+      threshold: 0.01,
+      rootMargin: '0px 0px -100px 0px' 
     };
 
     const observer = new IntersectionObserver((entries) => {
@@ -82,7 +80,6 @@ const App: React.FC = () => {
     const fromHome = currentPage === 'home';
     const toHome = page === 'home';
 
-    // Oppdater URL-en i adresselinjen
     const newPath = page === 'home' ? '/' : `/${page}`;
     if (window.location.pathname !== newPath) {
       window.history.pushState({ page }, '', newPath);
