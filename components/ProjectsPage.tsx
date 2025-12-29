@@ -17,18 +17,18 @@ const projects = [
     url: "https://www.minecraft.net/en-us/marketplace/pdp/norvale/deep-sea-horror/9489eaad-d032-4fc3-9e5f-360b86ea0214"
   },
   {
-    id: 3,
-    title: "ALIEN ESCAPE",
-    description: "You wake up on an abandoned alien ship drifting in space. Alarms echo and shadows move. Find a way out before whatever’s onboard finds you.",
-    image: "/images/20.jpg",
-    url: "https://www.minecraft.net/en-us/marketplace/pdp/norvale/alien-escape/d5cd4bab-7066-4f92-94e6-d7197f960da8"
-  },
-  {
     id: 4,
     title: "LEGENDARY DRAGONS",
     description: "Explore a vast open world filled with dragons, side quests, hidden secrets, and ancient ruins. Tame, ride, and rise to become a legendary dragon rider.",
     image: "/images/21.jpg",
     url: "https://www.minecraft.net/en-us/marketplace/pdp/norvale/legendary-dragons/63997522-8f8a-4380-bc8d-e01e9da8d6dc"
+  },
+  {
+    id: 3,
+    title: "ALIEN ESCAPE",
+    description: "You wake up on an abandoned alien ship drifting in space. Alarms echo and shadows move. Find a way out before whatever’s onboard finds you.",
+    image: "/images/20.jpg",
+    url: "https://www.minecraft.net/en-us/marketplace/pdp/norvale/alien-escape/d5cd4bab-7066-4f92-94e6-d7197f960da8"
   },
   {
     id: 5,
@@ -52,15 +52,34 @@ interface ProjectsPageProps {
 }
 
 const ProjectsPage: React.FC<ProjectsPageProps> = ({ shouldAnimateHeader = true, onPageChange }) => {
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const [isReady, setIsReady] = useState(false);
   const rotations = ['rotate-1', '-rotate-[1.5deg]', 'rotate-[1.5deg]', '-rotate-1', 'rotate-[1.2deg]', '-rotate-[1.2deg]'];
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
-    checkMobile();
     window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
+
+    // Smart Delay Logikk for ProjectsPage:
+    // Hvis vi er på toppen av en annen underside (header er allerede svart): dukker opp umiddelbart (50ms).
+    // Hvis headeren faktisk animerer (kommer fra Home eller scrollet tilstand): venter til den har landet.
+    // Vi har satt ned delayen fra 1000/1400 til 600ms på desktop for å være mer snappy.
+    let delay = 100;
+    if (shouldAnimateHeader) {
+      delay = window.innerWidth < 768 ? 300 : 800;
+    }
+
+    const timer = setTimeout(() => {
+      setIsReady(true);
+      // Trigger scroll event for å aktivere 'reveal' klasser umiddelbart
+      window.dispatchEvent(new Event('scroll'));
+    }, delay);
+
+    return () => {
+      window.removeEventListener('resize', checkMobile);
+      clearTimeout(timer);
+    };
+  }, [shouldAnimateHeader]);
 
   const handleProjectClick = (project: any) => {
     if (project.title === "THRONES OF DRAGONS") {
@@ -81,48 +100,38 @@ const ProjectsPage: React.FC<ProjectsPageProps> = ({ shouldAnimateHeader = true,
         </div>
       </section>
 
-      <section className="max-w-7xl mx-auto px-6 md:px-12 pt-24 md:pt-32 relative z-10">
+      <section className={`max-w-7xl mx-auto px-6 md:px-12 pt-24 md:pt-32 relative z-10 transition-all duration-700 ${isReady ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12 pointer-events-none'}`}>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-24 md:gap-y-40">
-          {projects.map((project, index) => {
-            const isFirstRow = index < 2;
-            
-            return (
-              <div 
-                key={project.id} 
-                onClick={() => handleProjectClick(project)}
-                className={`group cursor-pointer ${isFirstRow ? 'opacity-0 animate-fade-in-up' : 'reveal'}`}
-                style={isFirstRow ? { 
-                  animationDelay: isMobile 
-                    ? `${0.3 + (index * 0.1)}s` 
-                    : (shouldAnimateHeader 
-                        ? `${1.1 + (index * 0.15)}s` 
-                        : `${0.3 + (index * 0.1)}s`)
-                } : {
-                  transitionDelay: `${(index % 2) * 0.1}s`
-                }}
-              >
-                <div className="relative mb-10 mx-2 md:mx-4">
-                  <div className={`absolute -inset-3 bg-blockster-green rounded-xl ${rotations[index % rotations.length]} group-hover:rotate-0 transition-transform duration-700`}></div>
-                  <div className="relative overflow-hidden rounded-xl aspect-[16/9] bg-white">
-                    <img 
-                      src={project.image} 
-                      alt={project.title} 
-                      className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-[1.03]"
-                    />
-                  </div>
-                </div>
-
-                <div className="space-y-4 mt-12 px-2">
-                  <h3 className="text-2xl md:text-3xl font-black uppercase tracking-tighter text-blockster-dark group-hover:text-blockster-green transition-colors duration-300">
-                    {project.title}
-                  </h3>
-                  <p className="text-gray-500 font-medium text-base md:text-lg leading-relaxed max-w-xl">
-                    {project.description}
-                  </p>
+          {projects.map((project, index) => (
+            <div 
+              key={project.id} 
+              onClick={() => handleProjectClick(project)}
+              className="group cursor-pointer reveal"
+              style={{
+                transitionDelay: `${(index % 2) * 0.1}s`
+              }}
+            >
+              <div className="relative mb-10 mx-2 md:mx-4">
+                <div className={`absolute -inset-3 bg-blockster-green rounded-xl ${rotations[index % rotations.length]} group-hover:rotate-0 transition-transform duration-700`}></div>
+                <div className="relative overflow-hidden rounded-xl aspect-[16/9] bg-white">
+                  <img 
+                    src={project.image} 
+                    alt={project.title} 
+                    className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-[1.03]"
+                  />
                 </div>
               </div>
-            );
-          })}
+
+              <div className="space-y-4 mt-12 px-2">
+                <h3 className="text-2xl md:text-3xl font-black uppercase tracking-tighter text-blockster-dark group-hover:text-blockster-green transition-colors duration-300">
+                  {project.title}
+                </h3>
+                <p className="text-gray-500 font-medium text-base md:text-lg leading-relaxed max-w-xl">
+                  {project.description}
+                </p>
+              </div>
+            </div>
+          ))}
         </div>
       </section>
     </div>

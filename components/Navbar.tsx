@@ -76,6 +76,9 @@ const Navbar: React.FC<NavbarProps> = ({ currentPage, onPageChange }) => {
   // Subtil bounce: Bruker 1.35 i stedet for 1.56 for å gjøre spretten mindre voldsom
   const entryTiming = 'cubic-bezier(0.34, 1.30, 0.64, 1)';
   const exitTiming = 'cubic-bezier(0.4, 0, 0.2, 1)';
+  
+  // Raskere og mer bouncy timing for meny-knapper
+  const menuBtnTiming = 'cubic-bezier(0.34, 1.56, 0.64, 1)';
 
   return (
     <>
@@ -167,7 +170,7 @@ const Navbar: React.FC<NavbarProps> = ({ currentPage, onPageChange }) => {
         }`}
         style={{ 
           transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
-          transitionDuration: isNavigating ? '500ms' : '850ms'
+          transitionDuration: isNavigating ? '400ms' : '650ms'
         }}
       >
         <div className="h-full flex flex-col justify-center px-10 relative z-10 pt-20">
@@ -176,12 +179,15 @@ const Navbar: React.FC<NavbarProps> = ({ currentPage, onPageChange }) => {
               <button 
                 key={item.id}
                 onClick={() => handleNavigate(item.id)}
-                className={`text-4xl font-black uppercase tracking-tighter transition-all duration-1000 ${
+                className={`text-4xl font-black uppercase tracking-tighter transition-all duration-500 ${
                   isMenuOpen ? 'translate-x-0 opacity-100' : 'translate-x-12 opacity-0'
                 } ${
                   currentPage === item.id ? 'text-blockster-green' : 'text-blockster-dark hover:text-blockster-green'
                 }`}
-                style={{ transitionDelay: isMenuOpen ? `${250 + index * 70}ms` : `0ms` }}
+                style={{ 
+                  transitionDelay: isMenuOpen ? `${120 + index * 60}ms` : `0ms`,
+                  transitionTimingFunction: isMenuOpen ? menuBtnTiming : 'ease-in'
+                }}
               >
                 {item.label}
               </button>
@@ -191,10 +197,13 @@ const Navbar: React.FC<NavbarProps> = ({ currentPage, onPageChange }) => {
               href={marketplaceUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className={`minecraft-btn w-full bg-blockster-green text-white px-8 py-5 rounded-xl text-sm font-black uppercase tracking-widest shadow-block-green transition-all duration-700 mt-4 flex items-center justify-center ${
+              className={`minecraft-btn w-full bg-blockster-green text-white px-8 py-5 rounded-xl text-sm font-black uppercase tracking-widest shadow-block-green transition-all duration-500 mt-4 flex items-center justify-center ${
                 isMenuOpen ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
               }`}
-              style={{ transitionDelay: isMenuOpen ? '500ms' : '0ms' }}
+              style={{ 
+                transitionDelay: isMenuOpen ? `${120 + navItems.length * 60}ms` : '0ms',
+                transitionTimingFunction: isMenuOpen ? menuBtnTiming : 'ease-in'
+              }}
             >
               Marketplace
             </a>

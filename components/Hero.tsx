@@ -5,21 +5,47 @@ const Hero: React.FC = () => {
   const words = ["ADVENTURE", "STARTS", "WITH", "A", "SINGLE", "BLOCK"];
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
   const [isPosterLoaded, setIsPosterLoaded] = useState(false);
-  const [showClouds, setShowClouds] = useState(true);
+  const [showClouds, setShowClouds] = useState(false); 
+  const [canShowText, setCanShowText] = useState(false);
+  const [scrollY, setScrollY] = useState(0);
   
   const posterUrl = "/images/poster.jpg"; 
 
   useEffect(() => {
+    const handleScroll = () => {
+      setScrollY(window.scrollY);
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    
     const img = new Image();
     img.src = posterUrl;
     img.onload = () => setIsPosterLoaded(true);
 
-    const timer = setTimeout(() => {
-      setShowClouds(false);
-    }, 3200);
-
-    return () => clearTimeout(timer);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  useEffect(() => {
+    if (showClouds) {
+      const timer = setTimeout(() => {
+        setShowClouds(false);
+      }, 3500); 
+      return () => clearTimeout(timer);
+    }
+  }, [showClouds]);
+
+  const handleVideoLoad = () => {
+    setIsVideoLoaded(true);
+    setShowClouds(true);
+    
+    // Her styrer vi nøyaktig når teksten skal begynne å dukke opp
+    // 800ms etter at videoen har startet
+    setTimeout(() => {
+      setCanShowText(true);
+    }, 800);
+  };
+
+  // Parallaks-verdi: Beveger seg oppover ca 30% av scroll-distansen
+  const textTranslateY = scrollY * -0.3;
 
   return (
     <section className="relative h-[84vh] md:h-[99vh] min-h-[500px] md:min-h-[650px] flex items-end pb-16 px-6 md:px-12 hero-video-container mb-12 z-10 bg-[#dcdcdc]">
@@ -40,7 +66,7 @@ const Hero: React.FC = () => {
           loop 
           muted 
           playsInline 
-          onLoadedData={() => setIsVideoLoaded(true)}
+          onLoadedData={handleVideoLoad}
           className="w-full h-full object-cover"
         >
           <source src="/images/video.mp4" type="video/mp4" />
@@ -48,7 +74,7 @@ const Hero: React.FC = () => {
         </video>
       </div>
 
-      {/* Sky-effekt med Safari-fiks */}
+      {/* Sky-effekt */}
       {showClouds && (
         <div 
           className="absolute inset-0 z-30 pointer-events-none overflow-hidden"
@@ -62,7 +88,7 @@ const Hero: React.FC = () => {
           <img 
             src="/images/clouds.png" 
             alt="Flying Clouds" 
-            className="absolute bottom-[-15%] left-[-15%] w-[130%] h-auto object-contain opacity-0"
+            className="absolute bottom-[-15%] left-[-10%] md:left-[-15%] w-[160%] md:w-[130%] h-auto object-contain opacity-0"
             style={{
               animation: 'cloudFlyBy 3.2s ease-out forwards',
               mixBlendMode: 'screen',
@@ -89,22 +115,22 @@ const Hero: React.FC = () => {
             -webkit-transform: scale(1.1) translate3d(-10%, 10%, 0) rotate(0.001deg);
           }
           10% {
-            opacity: 0;
+            opacity: 0.0;
             transform: scale(1.1) translate3d(-10%, 10%, 0) rotate(0.001deg);
             -webkit-transform: scale(1.1) translate3d(-10%, 10%, 0) rotate(0.001deg);
           }
           20% {
-            opacity: 0.96;
+            opacity: 0.29;
             transform: scale(1.3) translate3d(-12%, 12%, 0) rotate(0.001deg);
             -webkit-transform: scale(1.2) translate3d(-12%, 12%, 0) rotate(0.001deg);
           }
           70% {
-            opacity: 0.96;
+            opacity: 1.0;
           }
           100% {
             opacity: 0;
-            transform: scale(2.8) translate3d(-30%, 30%, 0) rotate(0.001deg);
-            -webkit-transform: scale(2.5) translate3d(-30%, 30%, 0) rotate(0.001deg);
+            transform: scale(3.5) translate3d(-35%, 35%, 0) rotate(0.001deg);
+            -webkit-transform: scale(3.2) translate3d(-35%, 35%, 0) rotate(0.001deg);
           }
         }
 
@@ -130,7 +156,10 @@ const Hero: React.FC = () => {
         }
       `}</style>
       
-      <div className="relative z-20 max-w-7xl mx-auto w-full">
+      <div 
+        className="relative z-20 max-w-7xl mx-auto w-full transition-transform duration-75 ease-out"
+        style={{ transform: `translateY(${textTranslateY}px)` }}
+      >
         <div className="max-w-5xl">
           <h1 className="text-white text-4xl md:text-6xl lg:text-8xl font-black uppercase leading-[1.0] tracking-tight flex flex-wrap gap-x-[0.3em] pixel-shadow">
             {words.map((word, i) => (
@@ -138,8 +167,8 @@ const Hero: React.FC = () => {
                 key={i} 
                 className="inline-block opacity-0"
                 style={{ 
-                  animation: `wordFadeUp 1.2s cubic-bezier(0.19, 1, 0.22, 1) forwards`,
-                  animationDelay: `${0.6 + (i * 0.0)}s` 
+                  animation: canShowText ? `wordFadeUp 1.2s cubic-bezier(0.19, 1, 0.22, 1) forwards` : 'none',
+                  animationDelay: `${i * 0.08}s` 
                 }}
               >
                 {word}

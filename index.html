@@ -8,12 +8,12 @@
     
     <base href="/" />
 
-    <!-- Favicons with Cache Busting -->
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=1">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png?v=1">
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=1">
-    <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192x192.png?v=1">
-    <link rel="icon" type="image/x-icon" href="/favicon.ico?v=1">
+    <!-- Favicons with corrected paths to /images/ -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=1">
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png?v=1">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=1">
+    <link rel="icon" type="image/png" sizes="192x192" href="/images/favicon-192x192.png?v=1">
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico?v=1">
     <link rel="manifest" href="/site.webmanifest">
     <meta name="theme-color" content="#5bb35d">
 
@@ -216,16 +216,22 @@
         box-shadow: none !important;
       }
 
-      /* 
-         HER STYRES HASTIGHETEN PÅ SVART TEKST (REVEAL) 
-         Endret fra 1.0s til 1.6s for roligere overgang.
-      */
-
+      /* REVEAL LOGIKK: Ingen fading, bare rotasjon som retter seg opp */
+      .reveal {
+        opacity: 1 !important;
+        transition: transform 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+        will-change: transform;
+      }
 
       .reveal.active {
-        opacity: 1;
-        transform: translateY(0);
+        transform: translateY(0) rotate(0deg) !important;
       }
+
+      /* Tilt-varianter for skjevheten */
+      .tilt-l { transform: rotate(-1.8deg); }
+      .tilt-r { transform: rotate(1.5deg); }
+      .tilt-ls { transform: rotate(-1.2deg); }
+      .tilt-rs { transform: rotate(2deg); }
 
       .reveal-delay-1 { transition-delay: 0.15s; }
       .reveal-delay-2 { transition-delay: 0.35s; }
@@ -280,7 +286,6 @@
       }
     }
     </script>
-  <link rel="stylesheet" href="/index.css">
 </head>
   <body>
     <div id="root"></div>

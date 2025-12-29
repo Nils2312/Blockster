@@ -19,7 +19,7 @@ const ContentGrid: React.FC<ContentGridProps> = ({ onPageChange }) => {
       <div className="grid grid-cols-1 md:grid-cols-12 gap-10">
         <div 
           onClick={() => window.open(deepSeaUrl, '_blank', 'noopener,noreferrer')}
-          className="md:col-span-7 group relative overflow-hidden rounded-2xl bg-blockster-dark min-h-[480px] text-left reveal reveal-delay-1 shadow-block cursor-pointer"
+          className="md:col-span-7 group relative overflow-hidden rounded-2xl bg-blockster-dark min-h-[480px] text-left reveal tilt-l shadow-block cursor-pointer"
         >
           <img 
             src="/images/2.jpg"
@@ -40,7 +40,7 @@ const ContentGrid: React.FC<ContentGridProps> = ({ onPageChange }) => {
         </div>
 
         {/* Justert padding fra p-12 til px-6 py-10 på mobil */}
-        <div className="md:col-span-5 bg-blockster-green rounded-2xl px-6 py-10 md:p-12 flex flex-col justify-between group min-h-[480px] relative overflow-hidden reveal reveal-delay-2 shadow-block-green">
+        <div className="md:col-span-5 bg-blockster-green rounded-2xl px-6 py-10 md:p-12 flex flex-col justify-between group min-h-[480px] relative overflow-hidden reveal tilt-r shadow-block-green">
           <div className="absolute -bottom-10 -left-10 w-48 h-48 bg-white/10 rounded-3xl rotate-12 transition-transform duration-700 group-hover:rotate-[30deg] group-hover:scale-110"></div>
           
           <div className="relative z-10">
@@ -62,7 +62,7 @@ const ContentGrid: React.FC<ContentGridProps> = ({ onPageChange }) => {
 
         <div 
           onClick={() => onPageChange('projects')}
-          className="md:col-span-3 group relative overflow-hidden rounded-2xl min-h-[340px] reveal reveal-delay-1 shadow-block cursor-pointer"
+          className="md:col-span-3 group relative overflow-hidden rounded-2xl min-h-[340px] reveal tilt-ls shadow-block cursor-pointer"
         >
           <img 
             src="/images/3.jpg"
@@ -78,7 +78,7 @@ const ContentGrid: React.FC<ContentGridProps> = ({ onPageChange }) => {
         </div>
 
         {/* Justert padding fra p-10 til px-6 py-10 på mobil */}
-        <div className="md:col-span-9 bg-white rounded-2xl px-6 py-10 md:p-10 flex flex-col md:flex-row gap-8 md:gap-12 items-center reveal reveal-delay-2 shadow-block">
+        <div className="md:col-span-9 bg-white rounded-2xl px-6 py-10 md:p-10 flex flex-col md:flex-row gap-8 md:gap-12 items-center reveal tilt-rs shadow-block">
           <div className="flex-[0.6] text-left">
             <h3 className="text-4xl md:text-5xl font-black uppercase tracking-tighter leading-none mb-6">BEHIND <br /> THE BLOCKS</h3>
             <p className="text-gray-500 font-medium text-base md:text-lg leading-relaxed mb-4">

@@ -9,7 +9,7 @@ const ActionTiles: React.FC<ActionTilesProps> = ({ onPageChange }) => {
   return (
     <section id="help" className="grid grid-cols-1 md:grid-cols-2 gap-12 scroll-mt-32">
       <div 
-        className="group bg-white px-6 py-10 md:p-12 rounded-2xl flex flex-col justify-between min-h-[400px] relative overflow-hidden reveal shadow-block"
+        className="group bg-white px-6 py-10 md:p-12 rounded-2xl flex flex-col justify-between min-h-[400px] relative overflow-hidden reveal tilt-l shadow-block"
       >
         <div className="absolute -bottom-12 -right-12 w-48 h-48 bg-blockster-green/5 rounded-3xl rotate-12 transition-transform group-hover:rotate-45 duration-700"></div>
 
@@ -33,7 +33,7 @@ const ActionTiles: React.FC<ActionTilesProps> = ({ onPageChange }) => {
         </div>
       </div>
 
-      <div className="group bg-blockster-dark px-6 py-10 md:p-12 rounded-2xl flex flex-col justify-between min-h-[400px] relative overflow-hidden reveal reveal-delay-1 shadow-block-dark">
+      <div className="group bg-blockster-dark px-6 py-10 md:p-12 rounded-2xl flex flex-col justify-between min-h-[400px] relative overflow-hidden reveal tilt-r shadow-block-dark">
         <div className="absolute top-0 right-0 w-48 h-48 bg-blockster-green/20 -mr-12 -mt-12 rotate-45 rounded-2xl transition-transform duration-700 group-hover:rotate-12 group-hover:scale-110"></div>
         
         <div className="space-y-6 relative z-10">
