@@ -177,7 +177,7 @@ const AboutPage: React.FC<AboutPageProps> = ({ shouldAnimateHeader = true }) => 
                Every detail is placed with purpose, creating stories that stay with players long after leaving the game.
               </p>
               <p className="mt-6">
-                In partnership with <a href="https://norvale.net" target="_blank" rel="noopener noreferrer" className="text-blockster-green font-black">Norvale</a>, we collaborate to publish our worlds on the Minecraft Marketplace, bringing our adventures to players all across the globe.
+                In partnership with <a href="https://norvale.com" target="_blank" rel="noopener noreferrer" className="text-blockster-green font-black">Norvale</a>, we collaborate to publish our worlds on the Minecraft Marketplace, bringing our adventures to players all across the globe.
               </p>
             </div>
           </div>
