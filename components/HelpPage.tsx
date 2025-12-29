@@ -50,9 +50,6 @@ const HelpPage: React.FC<HelpPageProps> = ({ shouldAnimateHeader = true }) => {
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
     window.addEventListener('resize', checkMobile);
 
-    // Smart Delay for HelpPage:
-    // 50ms hvis headeren allerede er svart (navigering mellom undersider).
-    // 600ms på desktop / 400ms på mobil hvis headeren animerer ned (fra Home).
     let delay = 100;
     if (shouldAnimateHeader) {
       delay = window.innerWidth < 768 ? 300 : 800;

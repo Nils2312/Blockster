@@ -60,10 +60,6 @@ const ProjectsPage: React.FC<ProjectsPageProps> = ({ shouldAnimateHeader = true,
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
     window.addEventListener('resize', checkMobile);
 
-    // Smart Delay Logikk for ProjectsPage:
-    // Hvis vi er på toppen av en annen underside (header er allerede svart): dukker opp umiddelbart (50ms).
-    // Hvis headeren faktisk animerer (kommer fra Home eller scrollet tilstand): venter til den har landet.
-    // Vi har satt ned delayen fra 1000/1400 til 600ms på desktop for å være mer snappy.
     let delay = 100;
     if (shouldAnimateHeader) {
       delay = window.innerWidth < 768 ? 300 : 800;
@@ -71,7 +67,6 @@ const ProjectsPage: React.FC<ProjectsPageProps> = ({ shouldAnimateHeader = true,
 
     const timer = setTimeout(() => {
       setIsReady(true);
-      // Trigger scroll event for å aktivere 'reveal' klasser umiddelbart
       window.dispatchEvent(new Event('scroll'));
     }, delay);
 

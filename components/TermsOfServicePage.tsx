@@ -13,7 +13,6 @@ const TermsOfServicePage: React.FC<TermsOfServicePageProps> = ({ shouldAnimateHe
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
     window.addEventListener('resize', checkMobile);
 
-    // Smart Delay: 50ms ved navigering, 600ms ved header-animasjon.
     let delay = 100;
     if (shouldAnimateHeader) {
       delay = window.innerWidth < 768 ? 300 : 800;

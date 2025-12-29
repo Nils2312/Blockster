@@ -21,7 +21,14 @@ const Hero: React.FC = () => {
     img.src = posterUrl;
     img.onload = () => setIsPosterLoaded(true);
 
-    return () => window.removeEventListener('scroll', handleScroll);
+    const backupTimer = setTimeout(() => {
+        setCanShowText(true);
+    }, 2500);
+
+    return () => {
+        window.removeEventListener('scroll', handleScroll);
+        clearTimeout(backupTimer);
+    };
   }, []);
 
   useEffect(() => {
@@ -36,21 +43,16 @@ const Hero: React.FC = () => {
   const handleVideoLoad = () => {
     setIsVideoLoaded(true);
     setShowClouds(true);
-    
-    // Her styrer vi nøyaktig når teksten skal begynne å dukke opp
-    // 800ms etter at videoen har startet
     setTimeout(() => {
       setCanShowText(true);
-    }, 800);
+    }, 100);
   };
 
-  // Parallaks-verdi: Beveger seg oppover ca 30% av scroll-distansen
-  const textTranslateY = scrollY * -0.3;
+  const textTranslateY = scrollY * -0.08;
 
   return (
     <section className="relative h-[84vh] md:h-[99vh] min-h-[500px] md:min-h-[650px] flex items-end pb-16 px-6 md:px-12 hero-video-container mb-12 z-10 bg-[#dcdcdc]">
       
-      {/* Poster image */}
       <div className={`absolute inset-0 transition-opacity duration-1000 ease-in-out z-[-2] ${isPosterLoaded ? 'opacity-100' : 'opacity-0'}`}>
         <img 
           src={posterUrl} 
@@ -59,7 +61,6 @@ const Hero: React.FC = () => {
         />
       </div>
 
-      {/* Video */}
       <div className={`absolute inset-0 transition-opacity duration-[1500ms] ease-in-out z-[-1] ${isVideoLoaded ? 'opacity-100' : 'opacity-0'}`}>
         <video 
           autoPlay 
@@ -74,7 +75,6 @@ const Hero: React.FC = () => {
         </video>
       </div>
 
-      {/* Sky-effekt */}
       {showClouds && (
         <div 
           className="absolute inset-0 z-30 pointer-events-none overflow-hidden"
@@ -105,33 +105,14 @@ const Hero: React.FC = () => {
 
       <style>{`
         :root {
-          --shadow-opacity: 0.1;
+          --shadow-opacity: 0.15;
         }
 
         @keyframes cloudFlyBy {
-          0% {
-            opacity: 0;
-            transform: scale(1.1) translate3d(-10%, 10%, 0) rotate(0.001deg);
-            -webkit-transform: scale(1.1) translate3d(-10%, 10%, 0) rotate(0.001deg);
-          }
-          10% {
-            opacity: 0.0;
-            transform: scale(1.1) translate3d(-10%, 10%, 0) rotate(0.001deg);
-            -webkit-transform: scale(1.1) translate3d(-10%, 10%, 0) rotate(0.001deg);
-          }
-          20% {
-            opacity: 0.29;
-            transform: scale(1.3) translate3d(-12%, 12%, 0) rotate(0.001deg);
-            -webkit-transform: scale(1.2) translate3d(-12%, 12%, 0) rotate(0.001deg);
-          }
-          70% {
-            opacity: 1.0;
-          }
-          100% {
-            opacity: 0;
-            transform: scale(3.5) translate3d(-35%, 35%, 0) rotate(0.001deg);
-            -webkit-transform: scale(3.2) translate3d(-35%, 35%, 0) rotate(0.001deg);
-          }
+          0% { opacity: 0; transform: scale(1.1) translate3d(-10%, 10%, 0); }
+          20% { opacity: 0.29; transform: scale(1.3) translate3d(-12%, 12%, 0); }
+          70% { opacity: 1.0; }
+          100% { opacity: 0; transform: scale(3.5) translate3d(-35%, 35%, 0); }
         }
 
         .pixel-shadow {
@@ -144,15 +125,19 @@ const Hero: React.FC = () => {
           }
         }
 
-        @keyframes wordFadeUp {
-          from { 
+        @keyframes quickFadeIn {
+          0% { 
             opacity: 0; 
             transform: translateY(20px); 
           }
-          to { 
+          100% { 
             opacity: 1; 
             transform: translateY(0); 
           }
+        }
+
+        .animate-word {
+          animation: quickFadeIn 0.6s cubic-bezier(0.19, 1, 0.22, 1) both;
         }
       `}</style>
       
@@ -161,14 +146,13 @@ const Hero: React.FC = () => {
         style={{ transform: `translateY(${textTranslateY}px)` }}
       >
         <div className="max-w-5xl">
-          <h1 className="text-white text-4xl md:text-6xl lg:text-8xl font-black uppercase leading-[1.0] tracking-tight flex flex-wrap gap-x-[0.3em] pixel-shadow">
+          <h1 className="text-white text-4xl md:text-6xl lg:text-8xl font-black uppercase leading-[1.0] tracking-tight flex flex-wrap gap-x-[0.35em] pixel-shadow">
             {words.map((word, i) => (
               <span 
                 key={i} 
-                className="inline-block opacity-0"
+                className={`inline-block ${canShowText ? 'animate-word' : 'opacity-0'}`}
                 style={{ 
-                  animation: canShowText ? `wordFadeUp 1.2s cubic-bezier(0.19, 1, 0.22, 1) forwards` : 'none',
-                  animationDelay: `${i * 0.08}s` 
+                  animationDelay: `${i * 0.1}s` 
                 }}
               >
                 {word}

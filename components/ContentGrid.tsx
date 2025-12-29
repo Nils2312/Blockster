@@ -27,7 +27,6 @@ const ContentGrid: React.FC<ContentGridProps> = ({ onPageChange }) => {
             className="absolute inset-0 w-full h-full object-cover opacity-60 transition-transform duration-1000 group-hover:scale-110"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-blockster-dark via-blockster-dark/40 to-transparent"></div>
-          {/* Justert padding fra p-12 til px-6 py-10 på mobil */}
           <div className="absolute bottom-0 left-0 px-6 py-10 md:p-12 w-full">
             <h3 className="text-white text-5xl md:text-6xl font-black uppercase tracking-tighter mb-4 leading-none">DEEP SEA <br /> HORROR</h3>
             <p className="text-gray-300 max-w-xl mb-8 text-base md:text-lg leading-relaxed font-medium">
@@ -39,7 +38,6 @@ const ContentGrid: React.FC<ContentGridProps> = ({ onPageChange }) => {
           </div>
         </div>
 
-        {/* Justert padding fra p-12 til px-6 py-10 på mobil */}
         <div className="md:col-span-5 bg-blockster-green rounded-2xl px-6 py-10 md:p-12 flex flex-col justify-between group min-h-[480px] relative overflow-hidden reveal tilt-r shadow-block-green">
           <div className="absolute -bottom-10 -left-10 w-48 h-48 bg-white/10 rounded-3xl rotate-12 transition-transform duration-700 group-hover:rotate-[30deg] group-hover:scale-110"></div>
           
@@ -70,14 +68,12 @@ const ContentGrid: React.FC<ContentGridProps> = ({ onPageChange }) => {
             className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
           />
           <div className="absolute inset-0 bg-black/5 group-hover:bg-black/0 transition-colors duration-500"></div>
-          {/* Justert padding fra p-10 til px-6 py-8 på mobil */}
           <div className="absolute inset-0 px-6 py-8 md:p-10 flex flex-col justify-end">
             <h4 className="text-white text-3xl font-black uppercase tracking-tight mb-2">Horror Series</h4>
             <p className="text-white/70 font-bold uppercase tracking-widest text-[10px]">Experience the thrill</p>
           </div>
         </div>
 
-        {/* Justert padding fra p-10 til px-6 py-10 på mobil */}
         <div className="md:col-span-9 bg-white rounded-2xl px-6 py-10 md:p-10 flex flex-col md:flex-row gap-8 md:gap-12 items-center reveal tilt-rs shadow-block">
           <div className="flex-[0.6] text-left">
             <h3 className="text-4xl md:text-5xl font-black uppercase tracking-tighter leading-none mb-6">BEHIND <br /> THE BLOCKS</h3>

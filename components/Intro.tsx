@@ -12,7 +12,6 @@ const Intro: React.FC = () => {
       const rect = containerRef.current.getBoundingClientRect();
       const windowHeight = window.innerHeight;
       
-      // Matchet med About-side logikken for konsistens (65% trigger)
       const start = windowHeight * 0.65;
       const end = windowHeight * 0.25;
       
@@ -31,7 +30,6 @@ const Intro: React.FC = () => {
   return (
     <section id="about" className="relative scroll-mt-32 reveal">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
-        {/* Venstre Kolonne: Tekst med scroll-effekt og statistikk */}
         <div className="max-w-2xl lg:pt-14">
           <h2 className="text-5xl md:text-7xl font-black uppercase leading-[0.9] tracking-tight text-blockster-dark mb-8">
             WHERE <br /> 

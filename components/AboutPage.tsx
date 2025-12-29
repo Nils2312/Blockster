@@ -5,6 +5,62 @@ interface AboutPageProps {
   shouldAnimateHeader?: boolean;
 }
 
+const GalleryItem: React.FC<{ src: string, label: string, index: number }> = ({ src, label, index }) => {
+  const itemRef = useRef<HTMLDivElement>(null);
+  const [rotation, setRotation] = useState(0);
+  const baseTilt = (index % 2 === 0 ? 1 : -1) * (1.5 + (index % 3) * 0.5);
+
+  useEffect(() => {
+    let animationFrame: number;
+
+    const updateRotation = () => {
+      if (!itemRef.current) return;
+      
+      const rect = itemRef.current.getBoundingClientRect();
+      const viewportCenter = window.innerWidth / 2;
+      const itemCenter = rect.left + rect.width / 2;
+      
+      const distanceFromCenter = Math.abs(viewportCenter - itemCenter);
+      const maxDistance = window.innerWidth / 2;
+      
+      let progress = distanceFromCenter / maxDistance;
+      progress = Math.min(1, Math.max(0, progress));
+      
+      const smoothProgress = Math.pow(progress, 1.5);
+      const currentRotation = baseTilt * smoothProgress;
+      
+      setRotation(currentRotation);
+      animationFrame = requestAnimationFrame(updateRotation);
+    };
+
+    animationFrame = requestAnimationFrame(updateRotation);
+    return () => cancelAnimationFrame(animationFrame);
+  }, [baseTilt]);
+
+  return (
+    <div 
+      ref={itemRef}
+      className="w-[350px] md:w-[450px] h-[240px] md:h-[300px] shrink-0 rounded-2xl overflow-hidden shadow-block border-4 border-white group relative"
+      style={{ 
+        transform: `rotate(${rotation}deg)`,
+        transition: 'transform 0.1s linear', 
+        willChange: 'transform'
+      }}
+    >
+      <img 
+        src={src} 
+        className="w-full h-full object-cover transition-all duration-700 group-hover:scale-105" 
+        alt={label} 
+      />
+      <div className="absolute bottom-4 left-4 bg-blockster-green text-white px-3 py-1.4 rounded-lg shadow-block-green z-20">
+        <span className="text-[10px] font-black uppercase tracking-widest whitespace-nowrap">
+          {label}
+        </span>
+      </div>
+    </div>
+  );
+};
+
 const AboutPage: React.FC<AboutPageProps> = ({ shouldAnimateHeader = true }) => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
@@ -14,10 +70,9 @@ const AboutPage: React.FC<AboutPageProps> = ({ shouldAnimateHeader = true }) => 
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
     window.addEventListener('resize', checkMobile);
     
-    // Smart Delay Logikk for AboutPage:
-    let delay = 50;
+    let delay = 100;
     if (shouldAnimateHeader) {
-      delay = window.innerWidth < 768 ? 400 : 600;
+      delay = window.innerWidth < 768 ? 300 : 800;
     }
 
     const timer = setTimeout(() => {
@@ -33,7 +88,7 @@ const AboutPage: React.FC<AboutPageProps> = ({ shouldAnimateHeader = true }) => 
 
   const scroll = (direction: 'left' | 'right') => {
     if (scrollRef.current) {
-      const scrollAmount = window.innerWidth * 0.75; // Litt mer enn kortets bredde for å inkludere gap
+      const scrollAmount = window.innerWidth * 0.8; 
       scrollRef.current.scrollBy({
         left: direction === 'left' ? -scrollAmount : scrollAmount,
         behavior: 'smooth'
@@ -74,7 +129,6 @@ const AboutPage: React.FC<AboutPageProps> = ({ shouldAnimateHeader = true }) => 
     { user: "@natasharodinoff1813", text: "I’m buying this right now. It looks so good." },
     { user: "@TrentonNeff", text: "You should turn this into a horror movie. I would actually watch it." },
     { user: "@nutz880", text: "10/10. Absolutely amazing. I highly recommend buying it—the animations and voice acting are perfect." },
-  
     { user: "@Pixels89", text: "I played this with my son, and he absolutely loved it. We were both scared and impressed at the same time." },
     { user: "@CraftingWhMax", text: "Played this late at night and did not expect it to be this intense. The atmosphere is insanely good." },
     { user: "@Minecrplays1", text: "I went in blind and was genuinely surprised. The pacing and tension are really well done." },
@@ -82,7 +136,6 @@ const AboutPage: React.FC<AboutPageProps> = ({ shouldAnimateHeader = true }) => 
     { user: "@MJone12", text: "I don’t usually play horror maps, but this one pulled me in immediately. Very well made." },
     { user: "@Chillones18", text: "Didn’t expect this level of quality. The voice acting and sound design really stand out." },
     { user: "@RetroBlocks", text: "This felt like a full horror game, not just a Minecraft map. Amazing experience." },
-  
     { user: "@sergeant-e7h", text: "I just bought this and I’m already scared from watching the video alone. I honestly love it—thank you for this horror experience." }
   ];
   
@@ -116,14 +169,14 @@ const AboutPage: React.FC<AboutPageProps> = ({ shouldAnimateHeader = true }) => 
               BEYOND THE <br />
               <span className="text-blockster-green">ORDINARY</span>
             </h3>
-            <div className="space-y-6 text-gray-500 font-medium text-lg leading-relaxed">
+            <div className="space-y-6 text-gray-500 font-medium text-lg leading-relaxed text-gray-400">
               <p>
                 Founded by Nils Kristian Bjøro in 2020, Blockster is about more than placing blocks. It’s about building atmosphere. What began as small passion projects has grown into cinematic worlds shaped by storytelling, professional voice actors, and original music and sound design.
               </p>
               <p>
                Every detail is placed with purpose, creating stories that stay with players long after leaving the game.
               </p>
-              <p className="pt-4 border-t border-gray-100">
+              <p className="mt-6">
                 In partnership with <a href="https://norvale.net" target="_blank" rel="noopener noreferrer" className="text-blockster-green font-black">Norvale</a>, we collaborate to publish our worlds on the Minecraft Marketplace, bringing our adventures to players all across the globe.
               </p>
             </div>
@@ -136,7 +189,6 @@ const AboutPage: React.FC<AboutPageProps> = ({ shouldAnimateHeader = true }) => 
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-12 gap-6 h-auto">
-            {/* Atmosphere boks */}
             <div className="md:col-span-5 bg-white px-6 py-10 md:p-12 rounded-2xl shadow-block flex flex-col justify-between group relative overflow-hidden min-h-[320px] md:min-h-[400px] reveal tilt-l">
               <div className="absolute top-10 right-10 w-16 h-16 bg-blockster-green/10 rounded-xl rotate-12 group-hover:rotate-[-12deg] group-hover:translate-x-4 transition-transform duration-700"></div>
               <div className="absolute bottom-10 left-10 w-12 h-12 bg-blockster-green/10 rounded-lg -rotate-12 group-hover:rotate-6 transition-transform duration-500"></div>
@@ -152,7 +204,6 @@ const AboutPage: React.FC<AboutPageProps> = ({ shouldAnimateHeader = true }) => 
             </div>
 
             <div className="md:col-span-7 grid grid-cols-1 grid-rows-none md:grid-rows-2 gap-6">
-              {/* Story boks */}
               <div className="bg-blockster-dark px-6 py-10 md:p-12 rounded-2xl shadow-block flex flex-col justify-between group relative overflow-hidden min-h-[320px] md:min-h-0 reveal tilt-r">
                  <div className="absolute bottom-10 right-10 w-20 h-20 bg-blockster-green/10 rounded-2xl rotate-45 group-hover:rotate-[90deg] transition-transform duration-1000"></div>
                  <div className="absolute top-6 right-24 w-10 h-10 bg-blockster-green/10 rounded-lg rotate-12 group-hover:-translate-y-2 transition-transform duration-700"></div>
@@ -168,7 +219,6 @@ const AboutPage: React.FC<AboutPageProps> = ({ shouldAnimateHeader = true }) => 
                  </div>
               </div>
 
-              {/* Detail boks */}
               <div className="bg-blockster-green px-6 py-10 md:p-12 rounded-2xl shadow-block-green flex flex-col justify-between group relative overflow-hidden min-h-[320px] md:min-h-0 reveal tilt-ls">
                  <div className="absolute bottom-12 right-24 w-16 h-16 bg-white/10 rounded-2xl -rotate-[20deg] group-hover:rotate-[25deg] transition-transform duration-700 delay-100"></div>
                  <div className="absolute top-8 left-48 w-12 h-12 bg-white/10 rounded-xl rotate-[15deg] group-hover:scale-110 transition-transform duration-1000"></div>
@@ -197,21 +247,15 @@ const AboutPage: React.FC<AboutPageProps> = ({ shouldAnimateHeader = true }) => 
             </div>
           </div>
 
-          <div className="relative overflow-hidden pause-on-hover py-4">
-            <div className="flex w-fit gap-6 animate-marquee transition-transform duration-500">
+          <div className="relative overflow-hidden pause-on-hover py-12">
+            <div className="flex w-fit gap-8 md:gap-12 animate-marquee transition-transform duration-500">
               {[...galleryItems, ...galleryItems].map((item, i) => (
-                <div key={i} className="w-[350px] md:w-[450px] h-[240px] md:h-[300px] shrink-0 rounded-2xl overflow-hidden shadow-block border-4 border-white group transition-all duration-700 relative">
-                  <img 
-                    src={item.src} 
-                    className="w-full h-full object-cover transition-all duration-700 group-hover:scale-105" 
-                    alt={item.label} 
-                  />
-                  <div className="absolute bottom-4 left-4 bg-blockster-green text-white px-3 py-1.4 rounded-lg shadow-block-green z-20">
-                    <span className="text-[10px] font-black uppercase tracking-widest whitespace-nowrap">
-                      {item.label}
-                    </span>
-                  </div>
-                </div>
+                <GalleryItem 
+                  key={i} 
+                  src={item.src} 
+                  label={item.label} 
+                  index={i} 
+                />
               ))}
             </div>
           </div>
@@ -228,10 +272,9 @@ const AboutPage: React.FC<AboutPageProps> = ({ shouldAnimateHeader = true }) => 
           </div>
 
           <div className="relative md:hidden group/nav overflow-visible pt-10">
-            {/* Navigasjonspiler på sidene - Mørkegrå uten kanter */}
             <button 
               onClick={() => scroll('left')}
-              className="absolute left-1 top-[50%] -translate-y-1/2 z-30 bg-blockster-dark shadow-block-dark p-3 rounded-xl transition-all active:translate-y-[-48%] active:shadow-none"
+              className="absolute left-1 top-[50%] -translate-y-1/2 z-40 bg-blockster-dark shadow-block-dark p-3 rounded-xl transition-all active:translate-y-[-48%] active:shadow-none"
               aria-label="Scroll left"
             >
               <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="4" d="M15 19l-7-7 7-7"></path></svg>
@@ -239,7 +282,7 @@ const AboutPage: React.FC<AboutPageProps> = ({ shouldAnimateHeader = true }) => 
             
             <button 
               onClick={() => scroll('right')}
-              className="absolute right-1 top-[50%] -translate-y-1/2 z-30 bg-blockster-dark shadow-block-dark p-3 rounded-xl transition-all active:translate-y-[-48%] active:shadow-none"
+              className="absolute right-1 top-[50%] -translate-y-1/2 z-40 bg-blockster-dark shadow-block-dark p-3 rounded-xl transition-all active:translate-y-[-48%] active:shadow-none"
               aria-label="Scroll right"
             >
               <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="4" d="M9 5l7 7-7 7"></path></svg>
@@ -247,12 +290,12 @@ const AboutPage: React.FC<AboutPageProps> = ({ shouldAnimateHeader = true }) => 
 
             <div 
               ref={scrollRef}
-              className="flex overflow-x-auto gap-6 snap-x snap-mandatory hide-scrollbar no-scrollbar items-start px-12 pb-12"
+              className="flex overflow-x-auto gap-6 snap-x snap-mandatory hide-scrollbar no-scrollbar items-start px-[12vw] pb-2"
             >
               {testimonials.map((t, i) => (
                 <div 
                   key={i} 
-                  className={`min-w-[68vw] snap-center bg-white px-6 py-10 rounded-2xl shadow-block relative overflow-visible h-auto min-h-[260px] reveal ${i % 2 === 0 ? 'tilt-l' : 'tilt-r'}`}
+                  className={`min-w-[76vw] snap-center bg-white px-6 py-10 rounded-2xl shadow-block relative overflow-visible h-auto min-h-[260px] reveal ${i % 2 === 0 ? 'tilt-l' : 'tilt-r'}`}
                 >
                   <div className="flex flex-col gap-5 relative z-10 pb-4">
                     <span className="font-black text-blockster-dark uppercase tracking-tight text-[11px]">
@@ -272,7 +315,7 @@ const AboutPage: React.FC<AboutPageProps> = ({ shouldAnimateHeader = true }) => 
             {testimonials.map((t, i) => (
               <div 
                 key={i} 
-                className={`break-inside-avoid mb-6 bg-white px-6 py-8 md:p-10 rounded-2xl shadow-block border-2 border-transparent transition-all duration-300 hover:border-blockster-green/20 reveal ${i % 2 === 0 ? 'tilt-l' : 'tilt-r'}`}
+                className={`break-inside-avoid mb-6 bg-white px-6 py-8 md:p-10 rounded-2xl shadow-block reveal ${i % 2 === 0 ? 'tilt-l' : 'tilt-r'}`}
               >
                 <div className="flex flex-col gap-4">
                   <span className="font-black text-blockster-dark uppercase tracking-tight text-sm">

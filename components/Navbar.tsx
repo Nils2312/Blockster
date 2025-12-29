@@ -64,7 +64,6 @@ const Navbar: React.FC<NavbarProps> = ({ currentPage, onPageChange }) => {
   const isSolidUI = scrolled || isMenuOpen;
   const shouldBeFullWidth = isMenuOpen || isNavigating;
 
-  // HASTIGHET: Rask ned (700ms), litt saktere opp (1100ms) som forespurt
   const navClasses = `
     fixed left-1/2 -translate-x-1/2 z-[110] transition-all ${scrolled ? 'duration-700' : 'duration-[1100ms]'}
     ${(scrolled && !shouldBeFullWidth)
@@ -73,11 +72,9 @@ const Navbar: React.FC<NavbarProps> = ({ currentPage, onPageChange }) => {
     }
   `;
 
-  // Subtil bounce: Bruker 1.35 i stedet for 1.56 for å gjøre spretten mindre voldsom
   const entryTiming = 'cubic-bezier(0.34, 1.30, 0.64, 1)';
   const exitTiming = 'cubic-bezier(0.4, 0, 0.2, 1)';
   
-  // Raskere og mer bouncy timing for meny-knapper
   const menuBtnTiming = 'cubic-bezier(0.34, 1.56, 0.64, 1)';
 
   return (
@@ -88,7 +85,6 @@ const Navbar: React.FC<NavbarProps> = ({ currentPage, onPageChange }) => {
           transitionTimingFunction: (scrolled && !shouldBeFullWidth) ? entryTiming : exitTiming 
         }}
       >
-        {/* Bakgrunnen: Endret fra duration-600 til dynamisk hastighet og økt translate-y for Safari-sikring */}
         <div 
           className={`absolute inset-0 bg-white/95 backdrop-blur-md -z-10 transition-all ${
             isNavigating 
@@ -163,7 +159,6 @@ const Navbar: React.FC<NavbarProps> = ({ currentPage, onPageChange }) => {
         </div>
       </nav>
 
-      {/* MOBILMENY */}
       <div 
         className={`fixed inset-0 z-[100] bg-white md:hidden transition-transform ${
           isMenuOpen ? 'translate-x-0' : 'translate-x-full'

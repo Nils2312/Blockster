@@ -52,7 +52,6 @@ const App: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    // Dynamisk trigger-punkt: -20px på mobil (duker opp tidligere), -120px på desktop (hindrer tidlig pop-in på høye skjermer)
     const isMobile = window.innerWidth < 768;
     const observerOptions = {
       threshold: 0,
