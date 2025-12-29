@@ -124,7 +124,7 @@ const AboutPage: React.FC<AboutPageProps> = ({ shouldAnimateHeader = true }) => 
   ];
 
   const testimonials = [
-    { user: "@bendythegamingd", text: "This is one of the coolest Minecraft horror maps I have ever seen. It feels like its own horror game." },
+    { user: "@bendythegamingdevildarlin4572", text: "This is one of the coolest Minecraft horror maps I have ever seen. It feels like its own horror game." },
     { user: "@JovanniGrilli", text: "I played this twice. It was so good. I really hope they make a second chapter—I’ll definitely play it." },
     { user: "@IrisThatGothMf", text: "This is really well made for a Minecraft Bedrock map." },
     { user: "@fluffystaar83", text: "This is so cool! I love the story and the voice acting. The music and sound effects are amazing!" },
@@ -141,14 +141,14 @@ const AboutPage: React.FC<AboutPageProps> = ({ shouldAnimateHeader = true }) => 
     { user: "@natasharodinoff1813", text: "I’m buying this right now. It looks so good." },
     { user: "@TrentonNeff", text: "You should turn this into a horror movie. I would actually watch it." },
     { user: "@nutz880", text: "10/10. Absolutely amazing. I highly recommend buying it—the animations and voice acting are perfect." },
-    { user: "@Pixels89", text: "I played this with my son, and he absolutely loved it. We were scared and impressed at the same time." },
+    { user: "@Pixels89", text: "I played this with my son, and he absolutely loved it. We were both scared and impressed at the same time." },
     { user: "@CraftingWhMax", text: "Played this late at night and did not expect it to be this intense. The atmosphere is insanely good." },
     { user: "@Minecrplays1", text: "I went in blind and was genuinely surprised. The pacing and tension are really well done." },
     { user: "@FamilyCrafts", text: "One of the most immersive horror maps I’ve played. The story kept me hooked the entire time." },
     { user: "@MJone12", text: "I don’t usually play horror maps, but this one pulled me in immediately. Very well made." },
     { user: "@Chillones18", text: "Didn’t expect this level of quality. The voice acting and sound design really stand out." },
     { user: "@RetroBlocks", text: "This felt like a full horror game, not just a Minecraft map. Amazing experience." },
-    { user: "@sergeant-e7h", text: "I just bought this and I’m already scared from watching the video alone." }
+    { user: "@sergeant-e7h", text: "I just bought this and I’m already scared from watching the video alone. I honestly love it—thank you for this horror experience." }
   ];
   
 
@@ -304,16 +304,18 @@ const AboutPage: React.FC<AboutPageProps> = ({ shouldAnimateHeader = true }) => 
               <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="4" d="M9 5l7 7-7 7"></path></svg>
             </button>
 
+            {/* Scroll Container: items-start sikrer at bokser med forskjellig tekstmengde ikke strekkes til samme høyde */}
             <div 
               ref={scrollRef}
-              className="flex overflow-x-auto gap-0 snap-x snap-mandatory hide-scrollbar no-scrollbar items-start px-12"
+              className="flex overflow-x-auto overflow-y-hidden gap-0 snap-x snap-mandatory hide-scrollbar no-scrollbar items-start px-12 pb-14"
             >
               {testimonials.map((t, i) => (
                 <div 
                   key={i} 
-                  className="min-w-full snap-center px-4"
+                  className="min-w-full snap-center px-4 overflow-visible"
                 >
-                  <div className={`bg-white px-6 py-10 rounded-2xl shadow-block relative overflow-visible min-h-[260px] reveal ${i % 2 === 0 ? 'tilt-l' : 'tilt-r'}`}>
+                  {/* Testimonial boks: Fjernet min-h-[260px] for dynamisk høyde */}
+                  <div className={`bg-white px-6 py-10 rounded-2xl shadow-block relative overflow-visible h-auto flex flex-col justify-start reveal ${i % 2 === 0 ? 'tilt-l' : 'tilt-r'}`}>
                     <div className="flex flex-col gap-5 relative z-10">
                       <span className="font-black text-blockster-dark uppercase tracking-tight text-[11px]">
                         {t.user}
