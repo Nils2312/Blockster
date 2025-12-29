@@ -72,7 +72,7 @@ const AboutPage: React.FC<AboutPageProps> = ({ shouldAnimateHeader = true }) => 
     
     let delay = 100;
     if (shouldAnimateHeader) {
-      delay = window.innerWidth < 768 ? 300 : 800;
+      delay = window.innerWidth < 768 ? 400 : 800;
     }
 
     const timer = setTimeout(() => {
@@ -88,7 +88,8 @@ const AboutPage: React.FC<AboutPageProps> = ({ shouldAnimateHeader = true }) => 
 
   const scroll = (direction: 'left' | 'right') => {
     if (scrollRef.current) {
-      const scrollAmount = window.innerWidth * 0.8; 
+      // På mobil scroller vi nøyaktig én bredde (container bredde)
+      const scrollAmount = scrollRef.current.clientWidth;
       scrollRef.current.scrollBy({
         left: direction === 'left' ? -scrollAmount : scrollAmount,
         behavior: 'smooth'
@@ -274,7 +275,7 @@ const AboutPage: React.FC<AboutPageProps> = ({ shouldAnimateHeader = true }) => 
           <div className="relative md:hidden group/nav overflow-visible pt-10">
             <button 
               onClick={() => scroll('left')}
-              className="absolute left-1 top-[50%] -translate-y-1/2 z-40 bg-blockster-dark shadow-block-dark p-3 rounded-xl transition-all active:translate-y-[-48%] active:shadow-none"
+              className="absolute left-0 top-[50%] -translate-y-1/2 z-50 bg-blockster-dark shadow-block-dark p-3 rounded-xl transition-all active:translate-y-[-48%] active:shadow-none"
               aria-label="Scroll left"
             >
               <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="4" d="M15 19l-7-7 7-7"></path></svg>
@@ -282,7 +283,7 @@ const AboutPage: React.FC<AboutPageProps> = ({ shouldAnimateHeader = true }) => 
             
             <button 
               onClick={() => scroll('right')}
-              className="absolute right-1 top-[50%] -translate-y-1/2 z-40 bg-blockster-dark shadow-block-dark p-3 rounded-xl transition-all active:translate-y-[-48%] active:shadow-none"
+              className="absolute right-0 top-[50%] -translate-y-1/2 z-50 bg-blockster-dark shadow-block-dark p-3 rounded-xl transition-all active:translate-y-[-48%] active:shadow-none"
               aria-label="Scroll right"
             >
               <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="4" d="M9 5l7 7-7 7"></path></svg>
@@ -290,24 +291,25 @@ const AboutPage: React.FC<AboutPageProps> = ({ shouldAnimateHeader = true }) => 
 
             <div 
               ref={scrollRef}
-              className="flex overflow-x-auto gap-6 snap-x snap-mandatory hide-scrollbar no-scrollbar items-start px-[12vw] pb-2"
+              className="flex overflow-x-auto gap-0 snap-x snap-mandatory hide-scrollbar no-scrollbar items-start px-14 pb-2"
             >
               {testimonials.map((t, i) => (
                 <div 
                   key={i} 
-                  className={`min-w-[76vw] snap-center bg-white px-6 py-10 rounded-2xl shadow-block relative overflow-visible h-auto min-h-[260px] reveal ${i % 2 === 0 ? 'tilt-l' : 'tilt-r'}`}
+                  className="min-w-full snap-center px-2"
                 >
-                  <div className="flex flex-col gap-5 relative z-10 pb-4">
-                    <span className="font-black text-blockster-dark uppercase tracking-tight text-[11px]">
-                      {t.user}
-                    </span>
-                    <p className="text-gray-500 font-medium text-lg leading-relaxed italic">
-                      "{t.text}"
-                    </p>
+                  <div className={`bg-white px-6 py-10 rounded-2xl shadow-block relative overflow-visible h-auto min-h-[260px] reveal ${i % 2 === 0 ? 'tilt-l' : 'tilt-r'}`}>
+                    <div className="flex flex-col gap-5 relative z-10 pb-4">
+                      <span className="font-black text-blockster-dark uppercase tracking-tight text-[11px]">
+                        {t.user}
+                      </span>
+                      <p className="text-gray-500 font-medium text-lg leading-relaxed italic">
+                        "{t.text}"
+                      </p>
+                    </div>
                   </div>
                 </div>
               ))}
-              <div className="min-w-[4vw] h-1 shrink-0"></div>
             </div>
           </div>
 
