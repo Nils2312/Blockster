@@ -12,6 +12,7 @@ import HelpPage from './components/HelpPage';
 import ComingSoonPage from './components/ComingSoonPage';
 import PrivacyPolicyPage from './components/PrivacyPolicyPage';
 import TermsOfServicePage from './components/TermsOfServicePage';
+import DiscordFAB from './components/DiscordFAB';
 
 type Page = 'home' | 'about' | 'projects' | 'help' | 'coming-soon' | 'privacy' | 'terms';
 
@@ -30,15 +31,36 @@ const App: React.FC = () => {
 
   useEffect(() => {
     const titles: Record<Page, string> = {
-      home: 'Home | Blockster',
-      about: 'About | Blockster',
-      projects: 'Projects | Blockster',
-      help: 'Help Center | Blockster',
-      'coming-soon': 'Coming Soon | Blockster',
-      privacy: 'Privacy Policy | Blockster',
-      terms: 'Terms of Service | Blockster'
+      home: 'Blockster | Immersive Minecraft Maps & Bedrock Marketplace Worlds',
+      about: 'About Blockster | Nils Kristian Bjøro - Minecraft Creator',
+      projects: 'Minecraft Marketplace Projects | Adventure & Horror Maps',
+      help: 'Support & FAQ | Blockster Minecraft Marketplace Help',
+      'coming-soon': 'Upcoming Minecraft Projects | Blockster Studio',
+      privacy: 'Privacy Policy | Blockster Studio',
+      terms: 'Terms of Service | Blockster Studio'
     };
+
+    const descriptions: Record<Page, string> = {
+      home: 'Official website of Blockster. Explore professional Minecraft Bedrock Marketplace worlds with cinematic storytelling.',
+      about: 'Learn about the vision behind Blockster. Blockster creates immersive Minecraft experiences through atmosphere and storytelling.',
+      projects: 'Explore my portfolio of handcrafted Minecraft maps, including Deep Sea Horror, Legendary Dragons, and more.',
+      help: 'Get support for your Minecraft Marketplace purchases. Find FAQs about filming, refunds, and community access.',
+      'coming-soon': 'Sneak peek at upcoming Blockster projects. High-quality Minecraft adventure maps currently in development.',
+      privacy: 'How we handle your data and protect your privacy at Blockster Studio.',
+      terms: 'Terms and conditions for using the Blockster website and our Minecraft Marketplace content.'
+    };
+
     document.title = titles[currentPage] || 'Blockster';
+    
+    // Oppdaterer meta-beskrivelsen dynamisk for Google crawlere
+    let metaDesc = document.querySelector('meta[name="description"]');
+    if (!metaDesc) {
+      metaDesc = document.createElement('meta');
+      (metaDesc as HTMLMetaElement).name = 'description';
+      document.head.appendChild(metaDesc);
+    }
+    metaDesc.setAttribute('content', descriptions[currentPage] || descriptions.home);
+
   }, [currentPage]);
 
   useEffect(() => {
@@ -132,6 +154,7 @@ const App: React.FC = () => {
           </div>
         )}
       </main>
+      <DiscordFAB />
       <Footer onPageChange={handlePageChange} />
     </div>
   );

@@ -101,10 +101,10 @@ const HelpPage: React.FC<HelpPageProps> = ({ shouldAnimateHeader = true }) => {
     <div className="pb-32 overflow-hidden">
       <section className={`bg-blockster-dark pt-48 pb-24 px-6 md:px-12 rounded-b-xl md:rounded-b-3xl shadow-block-dark relative z-10 ${shouldAnimateHeader ? 'md:animate-slide-down' : ''}`}>
         <div className="max-w-7xl mx-auto opacity-0 animate-fade-in-up" style={{ animationDelay: isMobile ? '0.1s' : (shouldAnimateHeader ? '0.6s' : '0.1s') }}>
-          <h2 className="text-4xl md:text-5xl lg:text-7xl font-black uppercase leading-[1.0] tracking-tighter text-white max-w-4xl">
+          <h1 className="text-4xl md:text-5xl lg:text-7xl font-black uppercase leading-[1.0] tracking-tighter text-white max-w-4xl">
           SUPPORT & <br />
             <span className="text-blockster-green">HELP</span>
-          </h2>
+          </h1>
         </div>
       </section>
 
