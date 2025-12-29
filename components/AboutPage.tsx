@@ -49,8 +49,10 @@ const GalleryItem: React.FC<{ src: string, label: string, index: number }> = ({ 
     >
       <img 
         src={src} 
+        loading="lazy"
+        decoding="async"
         className="w-full h-full object-cover transition-all duration-700 group-hover:scale-105" 
-        alt={label} 
+        alt={`Minecraft Marketplace World - ${label} by Blockster`} 
       />
       <div className="absolute bottom-4 left-4 bg-blockster-green text-white px-3 py-1.4 rounded-lg shadow-block-green z-20">
         <span className="text-[10px] font-black uppercase tracking-widest whitespace-nowrap">
@@ -88,12 +90,21 @@ const AboutPage: React.FC<AboutPageProps> = ({ shouldAnimateHeader = true }) => 
 
   const scroll = (direction: 'left' | 'right') => {
     if (scrollRef.current) {
-      // På mobil scroller vi nøyaktig én bredde (container bredde)
-      const scrollAmount = scrollRef.current.clientWidth;
-      scrollRef.current.scrollBy({
-        left: direction === 'left' ? -scrollAmount : scrollAmount,
-        behavior: 'smooth'
-      });
+      const container = scrollRef.current;
+      const scrollAmount = container.offsetWidth;
+      const currentScroll = container.scrollLeft;
+
+      if (direction === 'left') {
+        container.scrollTo({
+          left: Math.max(0, currentScroll - scrollAmount),
+          behavior: 'smooth'
+        });
+      } else {
+        container.scrollTo({
+          left: currentScroll + scrollAmount,
+          behavior: 'smooth'
+        });
+      }
     }
   };
 
@@ -113,7 +124,7 @@ const AboutPage: React.FC<AboutPageProps> = ({ shouldAnimateHeader = true }) => 
   ];
 
   const testimonials = [
-    { user: "@bendythegamingdevildarlin4572", text: "This is one of the coolest Minecraft horror maps I have ever seen. It feels like its own horror game." },
+    { user: "@bendythegamingd", text: "This is one of the coolest Minecraft horror maps I have ever seen. It feels like its own horror game." },
     { user: "@JovanniGrilli", text: "I played this twice. It was so good. I really hope they make a second chapter—I’ll definitely play it." },
     { user: "@IrisThatGothMf", text: "This is really well made for a Minecraft Bedrock map." },
     { user: "@fluffystaar83", text: "This is so cool! I love the story and the voice acting. The music and sound effects are amazing!" },
@@ -159,17 +170,19 @@ const AboutPage: React.FC<AboutPageProps> = ({ shouldAnimateHeader = true }) => 
               <div className="absolute -inset-4 bg-blockster-green rounded-xl rotate-2 group-hover:rotate-0 transition-transform duration-700"></div>
               <img 
                 src="/images/11.jpg"
-                alt="Handcrafted World" 
+                alt="Nils Kristian Bjøro - Minecraft Marketplace Creator and Founder of Blockster" 
+                loading="lazy"
+                decoding="async"
                 className="relative rounded-xl w-full aspect-[10/7] object-cover transition-all duration-1000 group-hover:scale-[1.01]"
               />
             </div>
           </div>
 
           <div className="order-1 lg:order-2 space-y-8">
-            <h3 className="text-4xl md:text-5xl font-black uppercase tracking-tighter leading-[0.9]">
+            <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tighter leading-[0.9]">
               BEYOND THE <br />
               <span className="text-blockster-green">ORDINARY</span>
-            </h3>
+            </h2>
             <div className="space-y-6 text-gray-500 font-medium text-lg leading-relaxed text-gray-400">
               <p>
                 Founded by Nils Kristian Bjøro in 2020, Blockster is about more than placing blocks. It’s about building atmosphere. What began as small passion projects has grown into cinematic worlds shaped by storytelling, professional voice actors, and original music and sound design.
@@ -186,7 +199,7 @@ const AboutPage: React.FC<AboutPageProps> = ({ shouldAnimateHeader = true }) => 
 
         <section className="mt-24 md:mt-36 px-6 md:px-12 max-w-7xl mx-auto reveal">
           <div className="mb-16 text-left">
-             <h4 className="text-4xl md:text-5xl font-black uppercase tracking-tighter leading-none mb-4">CORE PILLARS</h4>
+             <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tighter leading-none mb-4">CORE PILLARS</h2>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-12 gap-6 h-auto">
@@ -197,7 +210,7 @@ const AboutPage: React.FC<AboutPageProps> = ({ shouldAnimateHeader = true }) => 
               
               <span className="font-black text-6xl md:text-8xl text-blockster-dark opacity-5 leading-none relative z-10">01</span>
               <div className="relative z-10">
-                <h5 className="text-3xl font-black uppercase tracking-tighter mb-4 text-blockster-dark">ATMOSPHERE</h5>
+                <h3 className="text-3xl font-black uppercase tracking-tighter mb-4 text-blockster-dark">ATMOSPHERE</h3>
                 <p className="font-medium text-lg leading-relaxed text-gray-400 max-w-xs">
                 Custom textures and sound design crafted to pull you deep into the experience. Creating moods, not just maps.
                 </p>
@@ -213,7 +226,7 @@ const AboutPage: React.FC<AboutPageProps> = ({ shouldAnimateHeader = true }) => 
                     <span className="font-black text-6xl text-white opacity-10 leading-none">02</span>
                  </div>
                  <div>
-                    <h5 className="text-3xl font-black uppercase tracking-tighter mb-2 text-white">STORY</h5>
+                    <h3 className="text-3xl font-black uppercase tracking-tighter mb-2 text-white">STORY</h3>
                     <p className="font-medium text-lg leading-relaxed text-gray-400 max-md">
                       Narratives crafted with care, often featuring original scores and voice acting that breathe life into the pixels.
                     </p>
@@ -226,7 +239,7 @@ const AboutPage: React.FC<AboutPageProps> = ({ shouldAnimateHeader = true }) => 
                  
                  <span className="font-black text-6xl text-white opacity-20 leading-none relative z-10">03</span>
                  <div className="relative z-10">
-                    <h5 className="text-3xl font-black uppercase tracking-tighter mb-2 text-white">DETAIL</h5>
+                    <h3 className="text-3xl font-black uppercase tracking-tighter mb-2 text-white">DETAIL</h3>
                     <p className="font-medium text-lg leading-relaxed text-white/80 max-w-md">
                     Worlds filled with detail, where every corner slowly reveals part of the lore. Crafted from the ground up.
                     </p>
@@ -239,9 +252,9 @@ const AboutPage: React.FC<AboutPageProps> = ({ shouldAnimateHeader = true }) => 
         <section className="reveal mt-32 md:mt-48 pb-10 space-y-12">
           <div className="px-6 md:px-12 max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-end gap-8">
             <div>
-              <h3 className="text-4xl md:text-5xl font-black uppercase tracking-tighter leading-none">
+              <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tighter leading-none">
                 QUALITY OVER <span className="text-blockster-green">QUANTITY</span>
-              </h3>
+              </h2>
               <p className="text-gray-500 font-medium text-lg mt-6 max-w-xl">
               Carefully crafted worlds shaped through countless hours of iteration and refinement.
               </p>
@@ -264,19 +277,21 @@ const AboutPage: React.FC<AboutPageProps> = ({ shouldAnimateHeader = true }) => 
 
         <section className="px-6 md:px-12 max-w-7xl mx-auto reveal pb-32 mt-12 md:mt-32">
           <div className="mb-6 md:mb-16">
-             <h3 className="text-4xl md:text-5xl font-black uppercase tracking-tighter leading-none">
+             <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tighter leading-none">
               FROM THE <span className="text-blockster-green">PLAYERS</span>
-             </h3>
+             </h2>
              <p className="text-gray-500 font-medium text-lg mt-6 max-w-xl">
              Player feedback lies at the heart of the experience. Words shared by players from around the world.
              </p>
           </div>
 
+          {/* Mobil Testimonial Slider */}
           <div className="relative md:hidden group/nav overflow-visible pt-10">
+            {/* Navigasjonspiler */}
             <button 
               onClick={() => scroll('left')}
               className="absolute left-0 top-[50%] -translate-y-1/2 z-50 bg-blockster-dark shadow-block-dark p-3 rounded-xl transition-all active:translate-y-[-48%] active:shadow-none"
-              aria-label="Scroll left"
+              aria-label="Scroll testimonials left"
             >
               <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="4" d="M15 19l-7-7 7-7"></path></svg>
             </button>
@@ -284,22 +299,22 @@ const AboutPage: React.FC<AboutPageProps> = ({ shouldAnimateHeader = true }) => 
             <button 
               onClick={() => scroll('right')}
               className="absolute right-0 top-[50%] -translate-y-1/2 z-50 bg-blockster-dark shadow-block-dark p-3 rounded-xl transition-all active:translate-y-[-48%] active:shadow-none"
-              aria-label="Scroll right"
+              aria-label="Scroll testimonials right"
             >
               <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="4" d="M9 5l7 7-7 7"></path></svg>
             </button>
 
             <div 
               ref={scrollRef}
-              className="flex overflow-x-auto gap-0 snap-x snap-mandatory hide-scrollbar no-scrollbar items-start px-14 pb-2"
+              className="flex overflow-x-auto gap-0 snap-x snap-mandatory hide-scrollbar no-scrollbar items-start px-12"
             >
               {testimonials.map((t, i) => (
                 <div 
                   key={i} 
-                  className="min-w-full snap-center px-2"
+                  className="min-w-full snap-center px-4"
                 >
-                  <div className={`bg-white px-6 py-10 rounded-2xl shadow-block relative overflow-visible h-auto min-h-[260px] reveal ${i % 2 === 0 ? 'tilt-l' : 'tilt-r'}`}>
-                    <div className="flex flex-col gap-5 relative z-10 pb-4">
+                  <div className={`bg-white px-6 py-10 rounded-2xl shadow-block relative overflow-visible min-h-[260px] reveal ${i % 2 === 0 ? 'tilt-l' : 'tilt-r'}`}>
+                    <div className="flex flex-col gap-5 relative z-10">
                       <span className="font-black text-blockster-dark uppercase tracking-tight text-[11px]">
                         {t.user}
                       </span>
@@ -313,6 +328,7 @@ const AboutPage: React.FC<AboutPageProps> = ({ shouldAnimateHeader = true }) => 
             </div>
           </div>
 
+          {/* Desktop Layout */}
           <div className="hidden md:block columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
             {testimonials.map((t, i) => (
               <div 

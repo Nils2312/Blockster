@@ -154,7 +154,6 @@ const App: React.FC = () => {
           </div>
         )}
       </main>
-      <DiscordFAB />
       <Footer onPageChange={handlePageChange} />
     </div>
   );
