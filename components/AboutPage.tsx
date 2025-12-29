@@ -141,14 +141,14 @@ const AboutPage: React.FC<AboutPageProps> = ({ shouldAnimateHeader = true }) => 
     { user: "@natasharodinoff1813", text: "I’m buying this right now. It looks so good." },
     { user: "@TrentonNeff", text: "You should turn this into a horror movie. I would actually watch it." },
     { user: "@nutz880", text: "10/10. Absolutely amazing. I highly recommend buying it—the animations and voice acting are perfect." },
-    { user: "@Pixels89", text: "I played this with my son, and he absolutely loved it. We were both scared and impressed at the same time." },
+    { user: "@Pixels89", text: "I played this with my son, and he absolutely loved it. We were scared and impressed at the same time." },
     { user: "@CraftingWhMax", text: "Played this late at night and did not expect it to be this intense. The atmosphere is insanely good." },
     { user: "@Minecrplays1", text: "I went in blind and was genuinely surprised. The pacing and tension are really well done." },
     { user: "@FamilyCrafts", text: "One of the most immersive horror maps I’ve played. The story kept me hooked the entire time." },
     { user: "@MJone12", text: "I don’t usually play horror maps, but this one pulled me in immediately. Very well made." },
     { user: "@Chillones18", text: "Didn’t expect this level of quality. The voice acting and sound design really stand out." },
     { user: "@RetroBlocks", text: "This felt like a full horror game, not just a Minecraft map. Amazing experience." },
-    { user: "@sergeant-e7h", text: "I just bought this and I’m already scared from watching the video alone. I honestly love it—thank you for this horror experience." }
+    { user: "@sergeant-e7h", text: "I just bought this and I’m already scared from watching the video alone." }
   ];
   
 
