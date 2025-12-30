@@ -124,8 +124,8 @@ const AboutPage: React.FC<AboutPageProps> = ({ shouldAnimateHeader = true }) => 
   ];
 
   const testimonials = [
-    { user: "@bendythegamingdevildarlin4572", text: "This is one of the coolest Minecraft horror maps I have ever seen. It feels like its own horror game." },
-    { user: "@JovanniGrilli", text: "I played this twice. It was so good. I really hope they make a second chapter—I’ll definitely play it." },
+    { user: "@bendythegamingdev", text: "This is one of the coolest Minecraft horror maps I have ever seen. It feels like its own horror game." },
+    { user: "@JovanniGrilli", text: "I played this twice. It was so good. I really hope they make a second chapter I’ll definitely play it." },
     { user: "@IrisThatGothMf", text: "This is really well made for a Minecraft Bedrock map." },
     { user: "@fluffystaar83", text: "This is so cool! I love the story and the voice acting. The music and sound effects are amazing!" },
     { user: "@ZRK-z4m", text: "9.9/10. Best horror map I’ve ever played. The voice acting is triple A." },

@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
@@ -121,6 +122,19 @@ const App: React.FC = () => {
   }, [currentPage]);
 
   const handlePageChange = (page: Page) => {
+    const isCurrentlySubPage = currentPage !== 'home';
+    const isNextSubPage = page !== 'home';
+    // Sjekk om brukeren er på toppen av siden (headeren er synlig) før vi scroller opp
+    const isAtTop = window.scrollY < 100;
+
+    if (isCurrentlySubPage && isNextSubPage && isAtTop) {
+      // Hvis vi er på toppen av en underside og går til en annen, hold headeren statisk
+      setShouldAnimateHeader(false);
+    } else {
+      // Hvis vi er scrollet ned, eller kommer fra Home, kjør animasjon
+      setShouldAnimateHeader(true);
+    }
+
     const newPath = page === 'home' ? '/' : `/${page}`;
     if (window.location.pathname !== newPath) {
       window.history.pushState({}, '', newPath);

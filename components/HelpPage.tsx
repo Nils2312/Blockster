@@ -116,7 +116,7 @@ const HelpPage: React.FC<HelpPageProps> = ({ shouldAnimateHeader = true }) => {
                <h3 className="text-4xl font-black uppercase tracking-tighter text-blockster-dark">SEND AN <br /> <span className="text-blockster-green">EMAIL</span></h3>
                <p className="text-gray-400 font-medium text-lg max-xs leading-relaxed">Questions about the maps? Technical issues? Get in touch anytime.</p>
             </div>
-            <a href="mailto:contact@blockster.games" className="minecraft-btn w-fit bg-blockster-dark text-white px-7 md:px-10 py-5 rounded-xl font-black uppercase tracking-widest text-[11px] xs:text-xs md:text-sm shadow-block-dark relative z-10 text-center">
+            <a href="mailto:contact@blockster.games" className="minecraft-btn w-fit bg-blockster-dark text-white px-10 md:px-10 py-5 rounded-xl font-black uppercase tracking-widest text-[11px] xs:text-xs md:text-sm shadow-block-dark relative z-10 text-center">
               contact@blockster.games
             </a>
           </div>
