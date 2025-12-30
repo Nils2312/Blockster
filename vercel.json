@@ -1,25 +1,26 @@
 
 {
-  "rewrites": [
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "routes": [
     {
-      "source": "/sitemap.xml",
-      "destination": "/sitemap.xml"
+      "handle": "filesystem"
     },
     {
-      "source": "/robots.txt",
-      "destination": "/robots.txt"
+      "src": "/sitemap.xml",
+      "dest": "/sitemap.xml"
     },
     {
-      "source": "/site.webmanifest",
-      "destination": "/site.webmanifest"
+      "src": "/robots.txt",
+      "dest": "/robots.txt"
     },
     {
-      "source": "/images/:path*",
-      "destination": "/images/:path*"
+      "src": "/images/(.*)",
+      "dest": "/images/$1"
     },
     {
-      "source": "/((?!.*\\.).*)",
-      "destination": "/index.html"
+      "src": "/(.*)",
+      "dest": "/index.html"
     }
   ]
 }
