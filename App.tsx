@@ -12,7 +12,6 @@ import HelpPage from './components/HelpPage';
 import ComingSoonPage from './components/ComingSoonPage';
 import PrivacyPolicyPage from './components/PrivacyPolicyPage';
 import TermsOfServicePage from './components/TermsOfServicePage';
-import DiscordFAB from './components/DiscordFAB';
 
 type Page = 'home' | 'about' | 'projects' | 'help' | 'coming-soon' | 'privacy' | 'terms';
 
