@@ -24,7 +24,7 @@ type Page =
 
 const App: React.FC = () => {
   const getPageFromPath = (): Page => {
-    const path = window.location.pathname.replace('/', '');
+    const path = window.location.pathname.replace(/^\/|\/$/g, '');
     const validPages: Page[] = [
       'about',
       'projects',
@@ -38,6 +38,7 @@ const App: React.FC = () => {
     }
     return 'home';
   };
+  
 
   const [currentPage, setCurrentPage] = useState<Page>(getPageFromPath());
   const [shouldAnimateHeader, setShouldAnimateHeader] = useState(true);
