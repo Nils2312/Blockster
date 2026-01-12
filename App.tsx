@@ -46,13 +46,13 @@ const App: React.FC = () => {
   // SEO: title, description, canonical
   useEffect(() => {
     const titles: Record<Page, string> = {
-      home: 'Blockster | Immersive Minecraft Maps & Bedrock Marketplace Worlds',
-      about: 'About Blockster | Nils Kristian Bjøro - Minecraft Creator',
-      projects: 'Minecraft Marketplace Projects | Adventure & Horror Maps',
-      help: 'Support & FAQ | Blockster Minecraft Marketplace Help',
+      home: 'Blockster: Immersive Minecraft Maps & Bedrock Marketplace Worlds',
+      about: 'About | Blockster',
+      projects: 'Projects | Blockster',
+      help: 'Support & FAQ | Blockster',
       'coming-soon': 'Upcoming Minecraft Projects | Blockster Studio',
-      privacy: 'Privacy Policy | Blockster Studio',
-      terms: 'Terms of Service | Blockster Studio'
+      privacy: 'Privacy Policy | Blockster',
+      terms: 'Terms of Service | Blockster'
     };
 
     const descriptions: Record<Page, string> = {
@@ -198,3 +198,4 @@ const App: React.FC = () => {
 };
 
 export default App;
+
